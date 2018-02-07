@@ -13,6 +13,8 @@
         {% endblock %}
     </head>
     <body>
+        {{ include("default/parts/header.html.twig") }}
+        {{ include("default/parts/messages.html.twig") }}
         {% block content %}
         <div class="container-fluid">
           ...

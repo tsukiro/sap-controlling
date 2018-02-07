@@ -15,26 +15,24 @@ use App\Entity\Usuario;
 
 class UsuarioController extends Controller
 {
-    private function getUrls(){
-      $urls[] = array("url" => $this->generateUrl("usuario"), "title" => "Inicio");
-      $urls[] = array("url" => $this->generateUrl("usuarioNuevo"), "title" => "Crear nuevo usuario");
-      return $urls;
-    }
+
     /**
      * @Route("/usuario", name="usuario")
      */
     public function index()
     {
+
+      $urls = MenuController::list();
       $em = $this->getDoctrine()->getRepository(Usuario::class);
       $usuarios = $em->findAll();
 
-      return $this->render("default/list.html.twig",array("urls" => $this->getUrls(),"usuarios" => $usuarios));
+      return $this->render("default/list.html.twig",array("urls" => $urls,"usuarios" => $usuarios));
     }
     /**
      * @Route("/usuario/nuevo", name="usuarioNuevo")
      */
     public function nuevo(Request $request){
-
+      $urls = MenuController::list();
       $usuario = new Usuario();
       $form = $this->createFormBuilder($usuario)
           ->add('nombre', TextType::class)
@@ -58,14 +56,14 @@ class UsuarioController extends Controller
           return $this->redirectToRoute('usuario');
       }
           return $this->render('default/new.html.twig', array(
-             'form' => $form->createView(), "urls" => $this->getUrls(),
+             'form' => $form->createView(), "urls" => $urls ,
          ));
     }
     /**
      * @Route("/usuario/edit/{id}", name="usuarioEdit")
      */
     public function edit(Usuario $usuario,Request $request){
-
+      $urls = MenuController::list();
       $form = $this->createFormBuilder($usuario)
           ->add('nombre', TextType::class)
           ->add('username', TextType::class)
@@ -88,7 +86,7 @@ class UsuarioController extends Controller
           return $this->redirectToRoute('usuario');
       }
           return $this->render('default/new.html.twig', array(
-             'form' => $form->createView(), 'urls' => $this->getUrls(),
+             'form' => $form->createView(), 'urls' => $urls,
          ));
     }
     /**
@@ -99,12 +97,12 @@ class UsuarioController extends Controller
         $usuario = $em->getRepository(Usuario::class)->find($id);
         if (!$usuario) {
             throw $this->createNotFoundException(
-                'No product found for id '.$id
+                'No se ha encontrado el usuario  '.$id
             );
         }
         $em->remove($usuario);
         $em->flush();
-        $this->addFlash("Exito","Eliminado correctamente");
+        $this->addFlash("Exito","Usuario eliminado correctamente");
         return $this->redirectToRoute('usuario');
     }
 }
