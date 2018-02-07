@@ -16,9 +16,24 @@
         {{ include("default/parts/header.html.twig") }}
         {{ include("default/parts/messages.html.twig") }}
         {% block content %}
-        <div class="container-fluid">
-          ...
+
+        <div class="row">
+          <div class="container-fluid">
+            <div class="jumbotron">
+              <h1 class="display-4">Hola, Bienvenido</h1>
+              <p class="lead">En este portal podrás administrar y llevar un control de los Pagos y Compras.</p>
+              <hr class="my-4">
+              <p>Revisa las opciones listadas en el menú o más abajo para chequear las funciones que puedes realizar.</p>
+              <p class="lead">
+                <a class="btn btn-primary" href="{{ path("usuario") }}" role="button">Administración de usuarios</a>
+                <a class="btn btn-primary" href="{{ path("usuario") }}" role="button">Gastos</a>
+                <a class="btn btn-primary" href="{{ path("usuario") }}" role="button">Pagos</a>
+                <a class="btn btn-primary" href="{{ path("usuario") }}" role="button">Solicitudes de Pago</a>
+              </p>
+            </div>
+          </div>
         </div>
+
         {% endblock %}
 
         {% block javascripts %}

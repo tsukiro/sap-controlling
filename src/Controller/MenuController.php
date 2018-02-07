@@ -13,9 +13,18 @@ class MenuController
     */
     public function list(){
       $urls[] = array("url" => "welcome","title" => "Inicio");
-      $urls[] = array("url" => "usuario","title" => "Listar Usuarios");
-      $urls[] = array("url" => "usuarioNuevo","title" => "Crear nuevo usuario");
-      
+      $urls[] = array("drop" => array(
+            array("url" => "usuario","title" => "Listar Usuarios"),
+            array("url" => "usuarioNuevo","title" => "Crear nuevo usuario")
+      ), "title" => "Usuarios");
+      $urls[] = array("drop" => array(
+            array("url" => "proveedor","title" => "Listar Proveedores"),
+            array("url" => "proveedorNuevo","title" => "Crear nuevo proveedor")
+      ), "title" => "Proveedores");
+      $urls[] = array("drop" => array(
+          array("url" => "compra","title" => "Listar Compras"),
+          array("url" => "compraNuevo","title" => "Crear nueva compra"),
+      ), "title" => "Compras");
       return $urls;
     }
 }

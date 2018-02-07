@@ -26,7 +26,7 @@ class UsuarioController extends Controller
       $em = $this->getDoctrine()->getRepository(Usuario::class);
       $usuarios = $em->findAll();
 
-      return $this->render("default/list.html.twig",array("urls" => $urls,"usuarios" => $usuarios));
+      return $this->render("default/list.usuario.html.twig",array("urls" => $urls,"usuarios" => $usuarios));
     }
     /**
      * @Route("/usuario/nuevo", name="usuarioNuevo")
@@ -102,7 +102,7 @@ class UsuarioController extends Controller
         }
         $em->remove($usuario);
         $em->flush();
-        $this->addFlash("Exito","Usuario eliminado correctamente");
+        $this->addFlash("Exito","Usuario eliminado correctamente.");
         return $this->redirectToRoute('usuario');
     }
 }

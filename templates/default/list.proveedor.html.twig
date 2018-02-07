@@ -1,0 +1,33 @@
+{% extends 'default/base.html.twig' %}
+
+{% block content %}
+<div class="container-fluid">
+
+
+  <table class="table">
+    <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Usuario</th>
+          <th>Password</th>
+          <th>Acción</th>
+        </tr>
+
+    </thead>
+
+
+
+  <br />
+
+  {% for proveedor in proveedores %}
+      <tr>
+      <td>{{ proveedor.rut }}</td>
+      <td>{{ proveedor.nombre }}</td>
+      <td><a class="btn btn-success" href="{{ path('usuarioEdit',{'id': proveedor.id })  }}">Editar</a>
+       <a class="btn btn-danger" href="{{ path('usuarioDelete',{'id': proveedor.id }) }}">Eliminar</a></td>
+      </tr>
+  {% endfor %}
+  </table>
+</div>
+
+{% endblock content %}

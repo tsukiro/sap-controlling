@@ -1,0 +1,31 @@
+{% extends 'default/base.html.twig' %}
+
+{% block content %}
+<div class="container-fluid">
+
+
+  <table class="table">
+    <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Solpeds</th>
+          <th>OC</th>
+          <th>Acción</th>
+        </tr>
+
+    </thead>
+  <br />
+  {% if compras is defined %}
+    {% for compra in compras %}
+        <tr>
+        <td>{{ compra.usuario.nombre }}</td>
+        
+        <td><a class="btn btn-success" href="{{ path('usuarioEdit',{'id': usuario.id })  }}">Editar</a>
+         <a class="btn btn-danger" href="{{ path('usuarioDelete',{'id': usuario.id }) }}">Eliminar</a></td>
+        </tr>
+    {% endfor %}
+  {% endif %}
+  </table>
+</div>
+
+{% endblock content %}
