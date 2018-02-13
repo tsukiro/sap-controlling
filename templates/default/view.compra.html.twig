@@ -2,10 +2,94 @@
 
 {% block content %}
 <div class="container">
+  <div class="page-header">
+  <h1>Vista de Compra : {{ compra.descripcion }}</h1>
+</div>
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#solpedModal">Agregar Solped</button>
 
-  {% for solped in compra.solpeds %}
-    {{ solped.id }}
-  {% endfor %}
+      <table class="table">
+          <tr>
+              <th>Numero</th>
+              <th>Estado</th>
+              <th>Fecha</th>
+          </tr>
 
+      {% if compra.solpeds is defined %}
+        {% for solped in compra.solpeds %}
+        <tr>
+          <td>{{ solped.numero }}</td>
+          <td>{{ solped.estado }}</td>
+          <td>{{ solped.created|date("d-m-Y") }}</td>
+        </tr>
+        {% endfor %}
+      {% endif %}
+          </table>
+    </div>
+    <div class="col">
+      <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#ocModal">Agregar OC</button>
+
+      <table class="table">
+          <tr>
+              <th>Numero</th>
+              <th>Estado</th>
+              <th>Fecha</th>
+              <th>Observacion</th>
+          </tr>
+      {% if compra.ocs is defined %}
+        {% for oc in compra.ocs %}
+        <tr>
+          <td>{{ oc.numero }}</td>
+          <td>{{ oc.estado }}</td>
+          <td>{{ oc.created|date("d-m-Y") }}</td>
+          <td>{{ oc.observacion }}</td>
+        </tr>
+        {% endfor %}
+      {% endif %}
+    </table>
+    </div>
+  </div>
+
+  <div class="modal fade  " id="ocModal" tabindex="-1" role="dialog" aria-labelledby="ocModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ocModalLabel">Agregar Solped</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {% if forms.oc is defined %}
+          {{ form(forms.oc) }}
+        {% endif %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade  " id="solpedModal" tabindex="-1" role="dialog" aria-labelledby="solpedModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="solpedModalLabel">Agregar OC</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      {% if forms.solped is defined %}
+        {{ form(forms.solped) }}
+      {% endif %}
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+</div>
 </div>
 {% endblock content %}

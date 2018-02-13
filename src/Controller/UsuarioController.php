@@ -76,7 +76,7 @@ class UsuarioController extends Controller
        if ($form->isSubmitted() && $form->isValid()) {
           // $form->getData() holds the submitted values
           // but, the original `$task` variable has also been updated
-          $task = $form->getData();
+          //$task = $form->getData();
 
 
            $em = $this->getDoctrine()->getManager();

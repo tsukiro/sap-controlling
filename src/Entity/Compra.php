@@ -14,6 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Compra
 {
   /**
+   * Muchas compras pueden tener muchas solpeds
+   * Muchas compras pueden tener muchas ocs
    * @ORM\ManyToOne(targetEntity="App\Entity\Usuario", inversedBy="compras")
    * @ORM\JoinColumn(nullable=true)
    */
@@ -30,15 +32,14 @@ class Compra
     /**
     * @return Collection|Solped[]
     *
-    * @ORM\ManyToMany(targetEntity="Solped", mappedBy="compras")
-    * @ORM\Column( nullable=true)
+    * @ORM\ManyToMany(targetEntity="Solped", inversedBy="compras")
     */
     private $solpeds;
 
     /**
     * @return Collection|OC[]
     *
-    * @ORM\ManyToMany(targetEntity="OC", mappedBy="compras")
+    * @ORM\ManyToMany(targetEntity="OC", inversedBy="compras")
     */
     private $ocs;
     /**
@@ -84,6 +85,9 @@ class Compra
     public function getSolpeds(){
       return $this->solpeds;
     }
+    public function getOcs(){
+      return $this->ocs;
+    }
 
 
     /**
@@ -126,9 +130,6 @@ class Compra
       $this->ocs->add($oc);
       $oc->addCompra($this);
     }
-
-
-
 
     /**
      * Get the value of Tipo
