@@ -23,8 +23,8 @@
       <tr>
       <td>{{ proveedor.rut }}</td>
       <td>{{ proveedor.nombre }}</td>
-      <td><a class="btn btn-success" href="{{ path('usuarioEdit',{'id': proveedor.id })  }}">Editar</a>
-       <a class="btn btn-danger" href="{{ path('usuarioDelete',{'id': proveedor.id }) }}">Eliminar</a></td>
+      <td><a class="btn btn-success" href="{{ path('proveedorEdit',{'id': proveedor.id })  }}">Editar</a>
+       <a class="btn btn-danger" href="{{ path('proveedorDelete',{'id': proveedor.id }) }}">Eliminar</a></td>
       </tr>
   {% endfor %}
   </table>

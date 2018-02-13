@@ -35,10 +35,11 @@ class CompraController extends Controller
     /**
     * @Route("/compra/nuevo", name="compraNuevo")
     */
-    public function nuevo(Request $request){
+    public function nuevo(Request $request)
+    {
       $urls = MenuController::list();
       $compra = new Compra();
-      $compra->setFecha(new \DateTime('today'));
+      $compra->setEstado(0);
       $form = $this->createFormBuilder($compra)
           //->add('nombre', TextType::class)
           ->add('descripcion', TextType::class)
@@ -51,28 +52,30 @@ class CompraController extends Controller
               'class' => Proveedor::class,
               'choice_label' => 'nombre',
           ))
-          ->add('fecha', DateType::class,array( 'format' => 'ddMMyyyy',))
+
           ->add('tipo', ChoiceType::class,array(
               'choices'  => array(
                   'Material' => 0,
                   'Servicio' => 1,
               )))
-          ->add('save', SubmitType::class, array('label' => 'Agregar Usuario'))
+          //->add('fecha', DateType::class,array("data" => new \DateTime("now")))
+          ->add('save', SubmitType::class, array('label' => 'Agregar Compra'))
           ->getForm();
 
        $form->handleRequest($request);
 
        if ($form->isSubmitted() && $form->isValid()) {
-          // $form->getData() holds the submitted values
+          //$compra = $form->getData();
           // but, the original `$task` variable has also been updated
           //$task = $form->getData();
 
 
            $em = $this->getDoctrine()->getManager();
-           $em->persist($usuario);
+
+           $em->persist($compra);
            $em->flush();
-          $this->addFlash("Exito","Se ha creado el usuario exitosamente.");
-          return $this->redirectToRoute('usuario');
+          $this->addFlash("Exito",("Creado exitosamente"));
+          return $this->redirectToRoute('compra');
       }
           return $this->render('default/new.html.twig', array(
              'form' => $form->createView(), "urls" => $urls ,

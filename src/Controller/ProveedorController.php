@@ -47,6 +47,7 @@ class ProveedorController extends Controller
          $em = $this->getDoctrine()->getManager();
          $em->persist($proveedor);
          $em->flush();
+         
         $this->addFlash("Exito","Se ha creado el proveedor exitosamente.");
         return $this->redirectToRoute('proveedor');
     }

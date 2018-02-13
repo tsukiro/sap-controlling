@@ -7,9 +7,13 @@
   <table class="table">
     <thead>
         <tr>
+          <th>#</th>
           <th>Usuario</th>
-          <th>Solpeds</th>
-          <th>OC</th>
+          <th>Descripción</th>
+          <th>Proveedor</th>
+          <th>Solicitante</th>
+          <th>Fecha</th>
+          <th>Tipo</th>
           <th>Acción</th>
         </tr>
 
@@ -18,10 +22,16 @@
   {% if compras is defined %}
     {% for compra in compras %}
         <tr>
+        <td>{{ compra.id }}</td>
         <td>{{ compra.usuario.nombre }}</td>
-        
-        <td><a class="btn btn-success" href="{{ path('usuarioEdit',{'id': usuario.id })  }}">Editar</a>
-         <a class="btn btn-danger" href="{{ path('usuarioDelete',{'id': usuario.id }) }}">Eliminar</a></td>
+        <td>{{ compra.descripcion }}</td>
+        <td>{{ compra.proveedor.nombre }}</td>
+        <td>{{ compra.solicitante }}</td>
+        <td>{{ compra.created|format("dd-MM-yyyy") }}</td>
+        <td>{{ compra.tipo }}</td>
+
+        <td>
+        </td>
         </tr>
     {% endfor %}
   {% endif %}

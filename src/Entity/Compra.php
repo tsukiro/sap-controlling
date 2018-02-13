@@ -5,8 +5,11 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Transaccion;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CompraRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Compra extends Transaccion
 {
@@ -35,7 +38,41 @@ class Compra extends Transaccion
     * @ORM\ManyToMany(targetEntity="OC", mappedBy="compras")
     */
     private $ocs;
+    /**
+    * @ORM\Column(type="text")
+    */
+    private $descripcion;
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Proveedor", inversedBy="compras")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $proveedor;
 
+    /**
+    * @var datetime $created
+    *
+    * @ORM\Column(type="datetime")
+    */
+   protected $created;
+   /**
+    * Gets triggered only on insert
+
+    * @ORM\PrePersist
+    */
+   public function onPrePersist()
+   {
+       $this->created = new \DateTime("now");
+   }
+
+    /**
+    * @ORM\Column(type="string")
+    */
+    private $solicitante;
+
+    /**
+    * @ORM\Column(type="integer")
+    */
+    private $tipo;
     public function __construct()
     {
         $this->solpeds = new ArrayCollection();
@@ -84,29 +121,7 @@ class Compra extends Transaccion
       $this->ocs->add($oc);
       $oc->addCompra($this);
     }
-    /**
-    * @ORM\Column(type="text")
-    */
-    private $descripcion;
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Proveedor", inversedBy="compras")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $proveedor;
-    /**
-    * @ORM\Column(type="date")
-    */
-    private $fecha;
 
-    /**
-    * @ORM\Column(type="string")
-    */
-    private $solicitante;
-
-    /**
-    * @ORM\Column(type="integer")
-    */
-    private $tipo;
 
 
 
@@ -117,7 +132,16 @@ class Compra extends Transaccion
      */
     public function getTipo()
     {
-        return $this->tipo;
+        switch ($this->tipo) {
+          case 0:
+            return "Material";
+            break;
+
+          case 1:
+            return "Servicio";
+            break;
+        }
+
     }
 
     /**
@@ -183,25 +207,25 @@ class Compra extends Transaccion
     }
 
     /**
-     * Get the value of Fecha
+     * Get the value of created
      *
      * @return mixed
      */
-    public function getFecha()
+    public function getCreated()
     {
-        return $this->fecha;
+        return $this->created;
     }
 
     /**
-     * Set the value of Fecha
+     * Set the value of created
      *
-     * @param mixed fecha
+     * @param mixed created
      *
      * @return self
      */
-    public function setFecha($fecha)
+    public function setCreated($created)
     {
-        $this->fecha = $fecha;
+        $this->created = $created;
 
         return $this;
     }

@@ -34,11 +34,6 @@ class Transaccion
     */
     private $estado;
 
-    /**
-    * @ORM\Column(type="datetime")
-    */
-    private $fecha;
-
 
     /**
      * Get the value of Estado
@@ -64,31 +59,7 @@ class Transaccion
         return $this;
     }
 
-    /**
-     * Get the value of Fecha
-     *
-     * @return mixed
-     */
-    public function getFecha()
-    {
-        return $this->fecha;
-    }
 
-    /**
-     * Set the value of Fecha
-     *
-     * @param mixed fecha
-     *
-     * @return self
-     */
-    public function setFecha($fecha)
-    {
-        $this->fecha = $fecha;
-
-        return $this;
-    }
-
-  
 
 
 }
