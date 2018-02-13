@@ -19,7 +19,7 @@ class Solped
     /**
     * @return Collection|Compra[]
     *
-    * @ORM\ManyToMany(targetEntity="Compra", mappedBy="ocs")
+    * @ORM\ManyToMany(targetEntity="Compra", mappedBy="solpeds")
     */
     private $compras;
     /**
@@ -34,4 +34,66 @@ class Solped
         $this->compras = new ArrayCollection();
         $this->pagos = new ArrayCollection();
     }
+
+
+
+    /**
+     * Get the value of Compras
+     *
+     * @return mixed
+     */
+    public function getCompras()
+    {
+        return $this->compras;
+    }
+
+    /**
+     * Set the value of Compras
+     *
+     * @param mixed compras
+     *
+     * @return self
+     */
+    public function setCompras($compras)
+    {
+        $this->compras = $compras;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Pagos
+     *
+     * @return mixed
+     */
+    public function getPagos()
+    {
+        return $this->pagos;
+    }
+
+    /**
+     * Set the value of Pagos
+     *
+     * @param mixed pagos
+     *
+     * @return self
+     */
+    public function setPagos($pagos)
+    {
+        $this->pagos = $pagos;
+
+        return $this;
+    }
+ 
+
+    /**
+     * Get the value of Id
+     *
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
 }

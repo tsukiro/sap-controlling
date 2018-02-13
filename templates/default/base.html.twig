@@ -5,7 +5,7 @@
       <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
       {% block title %}
         <title>
-          Hola!
+          IS Controlling Portal
         </title>
       {% endblock %}
         {% block stylesheets %}
@@ -26,15 +26,16 @@
               <p>Revisa las opciones listadas en el menú o más abajo para chequear las funciones que puedes realizar.</p>
               <p class="lead">
                 <a class="btn btn-primary" href="{{ path("usuario") }}" role="button">Administración de usuarios</a>
+                <a class="btn btn-primary" href="{{ path("proveedor") }}" role="button">Proveedores</a>
+                <a class="btn btn-primary" href="{{ path("compra") }}" role="button">Compras</a>
                 <a class="btn btn-primary" href="{{ path("usuario") }}" role="button">Gastos</a>
-                <a class="btn btn-primary" href="{{ path("usuario") }}" role="button">Pagos</a>
-                <a class="btn btn-primary" href="{{ path("usuario") }}" role="button">Solicitudes de Pago</a>
+                <a class="btn btn-primary" href="{{ path("compra") }}" role="button">Solicitudes de Pago</a>
               </p>
             </div>
           </div>
         </div>
 
-        {% endblock %}
+        {% endblock content %}
 
         {% block javascripts %}
             <script src="{{ asset('js/bootstrap.min.js') }}"></script>

@@ -1,0 +1,11 @@
+{% extends 'default/base.html.twig' %}
+
+{% block content %}
+<div class="container">
+
+  {% for solped in compra.solpeds %}
+    {{ solped.id }}
+  {% endfor %}
+
+</div>
+{% endblock content %}

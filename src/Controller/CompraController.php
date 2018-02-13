@@ -81,4 +81,14 @@ class CompraController extends Controller
              'form' => $form->createView(), "urls" => $urls ,
          ));
     }
+    /**
+    * @Route("/compra/view/{id}", name="compraView")
+    */
+    public function view(Compra $compra, Request $request){
+      $urls = (new MenuController)->list();
+
+      return $this->render('default/view.compra.html.twig', array(
+         'compra' => $compra, "urls" => $urls ,
+     ));
+    }
 }

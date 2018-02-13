@@ -29,35 +29,7 @@ class Transaccion
         return $this->id;
     }
 
-    /**
-    * @ORM\Column(type="integer")
-    */
-    private $estado;
-
-
-    /**
-     * Get the value of Estado
-     *
-     * @return mixed
-     */
-    public function getEstado()
-    {
-        return $this->estado;
-    }
-
-    /**
-     * Set the value of Estado
-     *
-     * @param mixed estado
-     *
-     * @return self
-     */
-    public function setEstado($estado)
-    {
-        $this->estado = $estado;
-
-        return $this;
-    }
+    
 
 
 

@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\CompraRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class Compra extends Transaccion
+class Compra
 {
   /**
    * @ORM\ManyToOne(targetEntity="App\Entity\Usuario", inversedBy="compras")
@@ -24,11 +24,14 @@ class Compra extends Transaccion
      * @ORM\Column(type="integer")
      */
     private $id;
-
+    public function getId(){
+      return $this->id;
+    }
     /**
     * @return Collection|Solped[]
     *
     * @ORM\ManyToMany(targetEntity="Solped", mappedBy="compras")
+    * @ORM\Column( nullable=true)
     */
     private $solpeds;
 
@@ -78,7 +81,9 @@ class Compra extends Transaccion
         $this->solpeds = new ArrayCollection();
         $this->ocs = new ArrayCollection();
     }
-
+    public function getSolpeds(){
+      return $this->solpeds;
+    }
 
 
     /**
@@ -253,5 +258,33 @@ class Compra extends Transaccion
 
         return $this;
     }
+    /**
+    * @ORM\Column(type="integer")
+    */
+    private $estado;
 
+
+    /**
+     * Get the value of Estado
+     *
+     * @return mixed
+     */
+    public function getEstado()
+    {
+        return $this->estado;
+    }
+
+    /**
+     * Set the value of Estado
+     *
+     * @param mixed estado
+     *
+     * @return self
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
 }
