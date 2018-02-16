@@ -31,7 +31,7 @@ class OC
     */
     private $pagos;
     /**
-    * @ORM\Column(type="integer")
+    * @ORM\Column(type="string")
     */
     private $numero;
     /**
@@ -158,7 +158,21 @@ class OC
      */
     public function getEstado()
     {
-        return $this->estado;
+      switch ($this->estado) {
+        case 0:
+          return "Pendiente";
+          break;
+
+        case 1:
+          return "Enviado a Proveedor";
+          break;
+        case 2:
+            return "Finalizado";
+          break;
+        case 3:
+            return "Anulado";
+          break;
+      }
     }
 
     /**

@@ -5,6 +5,33 @@
   <div class="page-header">
   <h1>Vista de Compra : {{ compra.descripcion }}</h1>
 </div>
+<div class="row">
+  <table class="table">
+    <thead>
+        <tr>
+          <th>#</th>
+          <th>Usuario</th>
+          <th>Descripción</th>
+          <th>Proveedor</th>
+          <th>Solicitante</th>
+          <th>Fecha</th>
+          <th>Tipo</th>
+        </tr>
+
+    </thead>
+  <br />
+        <tr>
+        <td>{{ compra.id }}</td>
+        <td>{{ compra.usuario.nombre }}</td>
+        <td>{{ compra.descripcion }}</td>
+        <td>{{ compra.proveedor.nombre }}</td>
+        <td>{{ compra.solicitante }}</td>
+        <td>{{ compra.created|date("d-m-Y") }}</td>
+        <td>{{ compra.tipo }}</td>
+
+        </tr>
+  </table>
+</div>
   <div class="row">
     <div class="col">
       <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#solpedModal">Agregar Solped</button>

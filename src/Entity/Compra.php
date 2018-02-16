@@ -272,7 +272,19 @@ class Compra
      */
     public function getEstado()
     {
-        return $this->estado;
+      switch ($this->estado) {
+        case 0:
+            return "Pendiente";
+          break;
+
+        case 1:
+          return "OC Enviada";
+          break;
+
+        case 2:
+          return "Anulada";
+          break;
+      }
     }
 
     /**

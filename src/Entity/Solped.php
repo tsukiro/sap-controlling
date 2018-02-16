@@ -32,7 +32,7 @@ class Solped
     */
     private $pagos;
     /**
-    * @ORM\Column(type="integer")
+    * @ORM\Column(type="string")
     */
     private $numero;
     /**
@@ -68,7 +68,21 @@ class Solped
      */
     public function getEstado()
     {
-        return $this->estado;
+        switch ($this->estado) {
+          case 0:
+            return "Pendiente";
+            break;
+
+          case 1:
+            return "Solicitada";
+            break;
+          case 2:
+              return "Aceptada";
+            break;
+          case 3:
+              return "Rechazada";
+            break;
+        }
     }
 
     /**
