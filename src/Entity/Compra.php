@@ -300,4 +300,10 @@ class Compra
 
         return $this;
     }
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Detalle", inversedBy="compras")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $proveedor;
+
 }

@@ -11,6 +11,7 @@ use App\Entity\Usuario;
 use App\Entity\Solped;
 use App\Entity\OC;
 use App\Entity\Proveedor;
+use App\Form\CompraType;
 use App\Form\SolpedType;
 use App\Form\OcType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -44,27 +45,7 @@ class CompraController extends Controller
       $urls = MenuController::list();
       $compra = new Compra();
       $compra->setEstado(0);
-      $form = $this->createFormBuilder($compra)
-          //->add('nombre', TextType::class)
-          ->add('descripcion', TextType::class)
-          ->add('solicitante', TextType::class)
-          ->add('usuario', EntityType::class,array(
-              'class' => Usuario::class,
-              'choice_label' => 'nombre',
-          ))
-          ->add('proveedor', EntityType::class,array(
-              'class' => Proveedor::class,
-              'choice_label' => 'nombre',
-          ))
-
-          ->add('tipo', ChoiceType::class,array(
-              'choices'  => array(
-                  'Material' => 0,
-                  'Servicio' => 1,
-              )))
-          //->add('fecha', DateType::class,array("data" => new \DateTime("now")))
-          ->add('save', SubmitType::class, array('label' => 'Agregar Compra'))
-          ->getForm();
+      $form = $this->createForm(CompraType::class, $compra);
 
        $form->handleRequest($request);
 
@@ -124,5 +105,34 @@ class CompraController extends Controller
       return $this->render('default/view.compra.html.twig', array(
          'compra' => $compra, "urls" => $urls , "forms" => array ("solped" => $solpedform->createView(),"oc" => $ocform->createView(),)
      ));
+    }
+    /**
+    * @Route("/compra/edit/{id}", name="compraEdit")
+    */
+    public function edit(Compra $compra,Request $request)
+    {
+      $urls = MenuController::list();
+      $compra->setEstado(0);
+      $form = $this->createForm(CompraType::class, $compra);
+
+
+       $form->handleRequest($request);
+
+       if ($form->isSubmitted() && $form->isValid()) {
+          //$compra = $form->getData();
+          // but, the original `$task` variable has also been updated
+          //$task = $form->getData();
+
+
+           $em = $this->getDoctrine()->getManager();
+
+           $em->persist($compra);
+           $em->flush();
+          $this->addFlash("Exito",("Editado exitosamente"));
+          return $this->redirectToRoute('compraView',array("id"=>$compra->getId()));
+      }
+          return $this->render('default/new.html.twig', array(
+             'form' => $form->createView(), "urls" => $urls ,
+         ));
     }
 }

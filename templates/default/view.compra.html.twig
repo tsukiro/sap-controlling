@@ -1,7 +1,7 @@
 {% extends 'default/base.html.twig' %}
 
 {% block content %}
-<div class="container">
+<div class="container ">
   <div class="page-header">
   <h1>Vista de Compra : {{ compra.descripcion }}</h1>
 </div>
@@ -16,6 +16,7 @@
           <th>Solicitante</th>
           <th>Fecha</th>
           <th>Tipo</th>
+          <th>Acción</th>
         </tr>
 
     </thead>
@@ -28,7 +29,16 @@
         <td>{{ compra.solicitante }}</td>
         <td>{{ compra.created|date("d-m-Y") }}</td>
         <td>{{ compra.tipo }}</td>
-
+        <td>
+          <div class="dropdown">
+            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="compraActionButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Acciones
+            </button>
+            <div class="dropdown-menu" aria-labelledby="compraActionButton">
+               <a class="dropdown-item" href="{{ path("compraEdit",{'id':compra.id}) }}">Editar</a>
+            </div>
+          </div>
+        </td>
         </tr>
   </table>
 </div>
@@ -39,16 +49,32 @@
       <table class="table">
           <tr>
               <th>Numero</th>
-              <th>Estado</th>
               <th>Fecha</th>
+              <th>Estado</th>
+              <th>Acción</th>
           </tr>
 
       {% if compra.solpeds is defined %}
         {% for solped in compra.solpeds %}
         <tr>
           <td>{{ solped.numero }}</td>
-          <td>{{ solped.estado }}</td>
           <td>{{ solped.created|date("d-m-Y") }}</td>
+          <td>  {{ solped.estado }}</td>
+          <td>
+            <div class="dropdown">
+              <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="solpedActionButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Acciones
+              </button>
+              <div class="dropdown-menu" aria-labelledby="solpedActionButton">
+                 <a class="dropdown-item" href="{{ path("solpedEditCompra",{'id': solped.id, 'compra': compra.id}) }}">Editar</a>
+                  <div class="dropdown-divider"></div>
+                 <a class="dropdown-item" href="{{ path("solpedCambioEstadoCompra",{'id': solped.id, 'compra' : compra.id, 'estado' : 0})}}">Cambiar a Pendiente</a>
+                 <a class="dropdown-item" href="{{ path("solpedCambioEstadoCompra",{'id': solped.id, 'compra' : compra.id, 'estado' : 1})}}">Cambiar a Solicitada</a>
+                 <a class="dropdown-item" href="{{ path("solpedCambioEstadoCompra",{'id': solped.id, 'compra' : compra.id, 'estado' : 2})}}">Cambiar a Aceptada</a>
+                 <a class="dropdown-item" href="{{ path("solpedCambioEstadoCompra",{'id': solped.id, 'compra' : compra.id, 'estado' : 3})}}">Cambiar a Rechazada</a>
+              </div>
+            </div>
+          </td>
         </tr>
         {% endfor %}
       {% endif %}
@@ -60,17 +86,31 @@
       <table class="table">
           <tr>
               <th>Numero</th>
-              <th>Estado</th>
               <th>Fecha</th>
-              <th>Observacion</th>
+              <th>Estado</th>
+              <th>Acción</th>
           </tr>
       {% if compra.ocs is defined %}
         {% for oc in compra.ocs %}
         <tr>
           <td>{{ oc.numero }}</td>
-          <td>{{ oc.estado }}</td>
           <td>{{ oc.created|date("d-m-Y") }}</td>
-          <td>{{ oc.observacion }}</td>
+          <td>{{ oc.estado }}</td>
+          <td>
+            <div class="dropdown">
+              <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="ocActionButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Acciones
+              </button>
+              <div class="dropdown-menu" aria-labelledby="ocActionButton">
+                <a class="dropdown-item" href="{{ path("ocEditCompra",{'id': oc.id, 'compra': compra.id}) }}">Editar</a>
+                 <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{ path("ocCambioEstadoCompra",{'id': oc.id, 'compra' : compra.id, 'estado' : 0})}}">Cambiar a Pendiente</a>
+                <a class="dropdown-item" href="{{ path("ocCambioEstadoCompra",{'id': oc.id, 'compra' : compra.id, 'estado' : 1})}}">Cambiar a Enviado a Proveedor</a>
+                <a class="dropdown-item" href="{{ path("ocCambioEstadoCompra",{'id': oc.id, 'compra' : compra.id, 'estado' : 2})}}">Cambiar a Finalizado</a>
+                <a class="dropdown-item" href="{{ path("ocCambioEstadoCompra",{'id': oc.id, 'compra' : compra.id, 'estado' : 3})}}">Cambiar a Anulado</a>
+              </div>
+            </div>
+          </td>
         </tr>
         {% endfor %}
       {% endif %}
