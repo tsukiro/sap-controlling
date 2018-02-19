@@ -304,6 +304,33 @@ class Compra
      * @ORM\ManyToOne(targetEntity="App\Entity\Detalle", inversedBy="compras")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $proveedor;
+    private $detalle;
+
+
+
+
+    /**
+     * Get the value of Detalle
+     *
+     * @return mixed
+     */
+    public function getDetalle()
+    {
+        return $this->detalle;
+    }
+
+    /**
+     * Set the value of Detalle
+     *
+     * @param mixed detalle
+     *
+     * @return self
+     */
+    public function setDetalle($detalle)
+    {
+        $this->detalle = $detalle;
+
+        return $this;
+    }
 
 }
