@@ -55,7 +55,7 @@ class OC
    private $estado;
 
    /**
-   * @ORM\Column(type="text")
+   * @ORM\Column(type="text", nullable=true)
    */
    private $observacion;
 

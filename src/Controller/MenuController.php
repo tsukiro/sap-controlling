@@ -25,6 +25,10 @@ class MenuController
           array("url" => "compra","title" => "Listar Compras"),
           array("url" => "compraNuevo","title" => "Crear nueva compra"),
       ), "title" => "Compras");
+      $urls[] = array("drop" => array(
+          array("url" => "pago","title" => "Listar Pagos"),
+          array("url" => "pagoNuevo","title" => "Crear nuevo pago"),
+      ), "title" => "Compras");
       return $urls;
     }
 }

@@ -21,6 +21,10 @@ class Proveedor
     */
     private $rut;
     /**
+    * @ORM\Column(type="text",length=20)
+    */
+    private $contrato;
+    /**
     * @ORM\Column(type="string")
     */
     private $nombre;
@@ -30,12 +34,22 @@ class Proveedor
     * @ORM\OneToMany(targetEntity="Compra", mappedBy="proveedor")
     */
     private $compras;
+    /**
+    * @return Collection|Pago[]
+    *
+    * @ORM\OneToMany(targetEntity="Pago", mappedBy="proveedor")
+    */
+    private $pagos;
 
     public function __Construct(){
       $this->compras = new ArrayCollection();
+      $this->pagos = new ArrayCollection();
     }
     public function getCompras(){
       return $this->compras;
+    }
+    public function getPagos(){
+      return $this->pagos;
     }
     /**
      * Get the value of Id

@@ -10,10 +10,12 @@ use App\Entity\Compra;
 use App\Entity\Usuario;
 use App\Entity\Solped;
 use App\Entity\OC;
+use App\Entity\Detalle;
 use App\Entity\Proveedor;
 use App\Form\CompraType;
 use App\Form\SolpedType;
 use App\Form\OcType;
+use App\Form\DetalleType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -73,8 +75,15 @@ class CompraController extends Controller
       $urls = (new MenuController)->list();
       $solped = new Solped;
       $oc = new OC;
+      $detalle = new Detalle;
+      $detalle->setTipo($compra->getTipo());
+      $detalle->setMedida("UND");
+      $detalle->setTiempo("D");
+      $detalle->setCantidad(1);
+      $detalleform = $this->createForm(DetalleType::class, $detalle);
       $solpedform = $this->createForm(SolpedType::class, $solped);
       $ocform = $this->createForm(OcType::class, $oc);
+      $detalleform->handleRequest($request);
       $solpedform->handleRequest($request);
       $ocform->handleRequest($request);
       $id = $compra->getId();
@@ -101,9 +110,20 @@ class CompraController extends Controller
         $this->addFlash("Exito",("OC creada exitosamente"));
         return $this->redirectToRoute('compraView',array('id'=>$compra->getId()));
     }
+     if ($detalleform->isSubmitted() && $detalleform->isValid()) {
+        //$compra = $form->getData();
+        // but, the original `$task` variable has also been updated
+        //$task = $form->getData();
+        $detalle->setCompra($compra);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($detalle);
+        $em->flush();
+        $this->addFlash("Exito",("OC creada exitosamente"));
+        return $this->redirectToRoute('compraView',array('id'=>$compra->getId()));
+    }
 
       return $this->render('default/view.compra.html.twig', array(
-         'compra' => $compra, "urls" => $urls , "forms" => array ("solped" => $solpedform->createView(),"oc" => $ocform->createView(),)
+         'compra' => $compra, "urls" => $urls , "forms" => array ("solped" => $solpedform->createView(),"oc" => $ocform->createView(),"detalle" => $detalleform->createView(),)
      ));
     }
     /**

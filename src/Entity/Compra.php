@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Transaccion;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -79,6 +78,7 @@ class Compra
     private $tipo;
     public function __construct()
     {
+        $this->detalle = new ArrayCollection();
         $this->solpeds = new ArrayCollection();
         $this->ocs = new ArrayCollection();
     }
@@ -301,7 +301,7 @@ class Compra
         return $this;
     }
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Detalle", inversedBy="compras")
+     * @ORM\OneToMany(targetEntity="App\Entity\Detalle", mappedBy="compra")
      * @ORM\JoinColumn(nullable=true)
      */
     private $detalle;

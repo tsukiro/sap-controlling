@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Proveedor;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use App\Form\ProveedorType;
 
 class ProveedorController extends Controller
 {
@@ -30,11 +31,7 @@ class ProveedorController extends Controller
   public function nuevo(Request $request){
     $urls = MenuController::list();
     $proveedor = new Proveedor();
-    $form = $this->createFormBuilder($proveedor)
-        ->add('rut', TextType::class)
-        ->add('nombre', TextType::class)
-        ->add('save', SubmitType::class, array('label' => 'Agregar Proveedor'))
-        ->getForm();
+    $form = $this->createForm(DetalleType::class, $proveedor);
 
      $form->handleRequest($request);
 
@@ -47,7 +44,7 @@ class ProveedorController extends Controller
          $em = $this->getDoctrine()->getManager();
          $em->persist($proveedor);
          $em->flush();
-         
+
         $this->addFlash("Exito","Se ha creado el proveedor exitosamente.");
         return $this->redirectToRoute('proveedor');
     }
@@ -60,11 +57,7 @@ class ProveedorController extends Controller
    */
   public function edit(Proveedor $proveedor,Request $request){
     $urls = MenuController::list();
-    $form = $this->createFormBuilder($proveedor)
-    ->add('rut', TextType::class)
-    ->add('nombre', TextType::class)
-    ->add('save', SubmitType::class, array('label' => 'Editar Proveedor'))
-    ->getForm();
+    $form = $this->createForm(DetalleType::class, $proveedor);
 
      $form->handleRequest($request);
 

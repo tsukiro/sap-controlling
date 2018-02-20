@@ -42,6 +42,45 @@
         </tr>
   </table>
 </div>
+
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#detalleModal">Agregar Detalle</button>
+      <table class="table">
+        <thead>
+          <th>Descripcion</th>
+          <th>Cantidad</th>
+          <th>Valor Neto Unitario</th>
+          <th>Acción</th>
+        </thead>
+        <tbody>
+          {% if compra.detalle is defined %}
+          {% for detalle in compra.detalle %}
+          <tr>
+            <td>{{ detalle.descripcion }}</td>
+            <td>{{ detalle.cantidad }}</td>
+            <td>${{ detalle.valor }}</td>
+            <td>  <div class="dropdown">
+                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="ocActionButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Acciones
+                </button>
+                <div class="dropdown-menu" aria-labelledby="ocActionButton">
+                  <a class="dropdown-item" href="{{ path("detalleEditCompra",{'id': detalle.id, 'compra': compra.id}) }}">Editar</a>
+                  <a class="dropdown-item" href="{{ path("detalleDeleteCompra",{'id': detalle.id, 'compra': compra.id}) }}">Eliminar</a>
+              </div>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <div class="col">
+      <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#distribucionModal">Agregar Distribución</button>
+
+    </div>
+  </div>
   <div class="row">
     <div class="col">
       <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#solpedModal">Agregar Solped</button>
@@ -117,7 +156,6 @@
     </table>
     </div>
   </div>
-
   <div class="modal fade  " id="ocModal" tabindex="-1" role="dialog" aria-labelledby="ocModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -150,6 +188,46 @@
     <div class="modal-body">
       {% if forms.solped is defined %}
         {{ form(forms.solped) }}
+      {% endif %}
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+</div>
+<div class="modal fade  " id="detalleModal" tabindex="-1" role="dialog" aria-labelledby="detalleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="detalleModalLabel">Agrega Detalle</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      {% if forms.detalle is defined %}
+        {{ form(forms.detalle) }}
+      {% endif %}
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+</div>
+<div class="modal fade  " id="distribucionModal" tabindex="-1" role="dialog" aria-labelledby="distribucionModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="distribucionModalLabel">Agrega Detalle</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      {% if forms.detalle is defined %}
+        {{ form(forms.detalle) }}
       {% endif %}
     </div>
     <div class="modal-footer">
