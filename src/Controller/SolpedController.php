@@ -14,7 +14,7 @@ class SolpedController extends Controller
   /**
    * @Route("/solped/edit/{tipo}/{id}", name="solpedEdit")
    */
-  public function edit(Solped $solped, $compra, Request $request)
+  public function edit(Solped $solped, $tipo, Request $request)
   {
     $urls = (new MenuController)->list();
     $solpedform = $this->createForm(SolpedType::class, $solped);
@@ -28,6 +28,7 @@ class SolpedController extends Controller
          $em->persist($solped);
          $em->flush();
          $this->addFlash("Exito",("Solped editada exitosamente"));
+         
          return $this->redirectToRoute('compraView',array('id'=>$compra));
      }
      return $this->render('default/new.html.twig', array("urls" => $urls , "form" => $solpedform->createView(),)
