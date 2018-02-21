@@ -7,8 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Proveedor;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 use App\Form\ProveedorType;
 
 class ProveedorController extends Controller
@@ -31,7 +30,7 @@ class ProveedorController extends Controller
   public function nuevo(Request $request){
     $urls = MenuController::list();
     $proveedor = new Proveedor();
-    $form = $this->createForm(DetalleType::class, $proveedor);
+    $form = $this->createForm(ProveedorType::class, $proveedor);
 
      $form->handleRequest($request);
 
@@ -57,7 +56,7 @@ class ProveedorController extends Controller
    */
   public function edit(Proveedor $proveedor,Request $request){
     $urls = MenuController::list();
-    $form = $this->createForm(DetalleType::class, $proveedor);
+    $form = $this->createForm(ProveedorType::class, $proveedor);
 
      $form->handleRequest($request);
 

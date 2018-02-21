@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PagoRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Pago
 {
@@ -66,11 +68,15 @@ class Pago
           break;
 
         case 1:
-          return "OC Enviada";
+          return "Envio HES";
           break;
 
         case 2:
-          return "Anulada";
+          return "Redistribuir";
+          break;
+
+        case 3:
+          return "Finalizado";
           break;
       }
     }
@@ -147,7 +153,7 @@ class Pago
           return;
       }
       $this->solpeds->add($solped);
-      $solped->addCompra($this);
+      $solped->addPago($this);
     }
     public function addOc(OC $oc)
     {
@@ -155,7 +161,7 @@ class Pago
         return;
       }
       $this->ocs->add($oc);
-      $oc->addCompra($this);
+      $oc->addPago($this);
     }
 
 

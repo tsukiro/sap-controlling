@@ -110,4 +110,33 @@ class Proveedor
         return $this;
     }
 
+
+
+
+    /**
+     * Get the value of Contrato
+     *
+     * @return mixed
+     */
+    public function getContrato()
+    {
+        return $this->contrato;
+    }
+
+    /**
+     * Set the value of Contrato
+     *
+     * @param mixed contrato
+     *
+     * @return self
+     */
+    public function setContrato($contrato)
+    {
+        $this->contrato = $contrato;
+
+        return $this;
+    }
+
+  
+
 }

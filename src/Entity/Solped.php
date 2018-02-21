@@ -141,9 +141,9 @@ class Solped
      *
      * @return self
      */
-    public function setPagos($pagos)
+    public function addpago($pago)
     {
-        $this->pagos = $pagos;
+        $this->pagos[] = $pago;
 
         return $this;
     }

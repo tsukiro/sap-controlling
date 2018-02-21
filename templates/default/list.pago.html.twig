@@ -1,0 +1,49 @@
+{% extends 'default/base.html.twig' %}
+
+{% block content %}
+<div class="container">
+
+  <div class="row">
+    <div class="col">
+      <h3>Listado de Pagos</h3>
+    </div>
+    <div class="col ">
+    </div>
+
+  </div>
+  <div class="row">
+    <table class="table">
+      <thead>
+          <tr>
+            <th>#</th>
+            <th>Usuario</th>
+            <th>Descripción</th>
+            <th>Proveedor</th>
+            <th>Fecha</th>
+            <th>Tipo</th>
+            <th>Estado</th>
+            <th>Acción</th>
+          </tr>
+
+      </thead>
+    <br />
+    {% if pagos is defined %}
+      {% for pago in pagos %}
+          <tr>
+          <td>{{ pago.id }}</td>
+          <td>{{ pago.usuario.nombre }}</td>
+          <td>{{ pago.descripcion }}</td>
+          <td>{{ pago.proveedor.nombre }}</td>
+          <td>{{ pago.created|date("d-m-Y") }}</td>
+          <td>{{ pago.tipo }}</td>
+          <td>{{ pago.estado }}</td>
+          <td><a class="btn btn-success" href="{{ path('pagoView',{'id': pago.id })  }}">Ver</a></td>
+
+
+          </tr>
+      {% endfor %}
+    {% endif %}
+    </table>
+  </div>
+</div>
+{% endblock content %}

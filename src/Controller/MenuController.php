@@ -28,7 +28,7 @@ class MenuController
       $urls[] = array("drop" => array(
           array("url" => "pago","title" => "Listar Pagos"),
           array("url" => "pagoNuevo","title" => "Crear nuevo pago"),
-      ), "title" => "Compras");
+      ), "title" => "Pagos");
       return $urls;
     }
 }

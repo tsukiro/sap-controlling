@@ -21,8 +21,15 @@ class Detalle
      */
     private $compra;
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Pago", inversedBy="detalle")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $pago;
+
+    /**
      * @ORM\Column(type="integer")
      */
+
     private $tipo;
     /**
      * @ORM\Column(type="integer")
@@ -61,29 +68,6 @@ class Detalle
 
 
 
-    /**
-     * Get the value of Compra
-     *
-     * @return mixed
-     */
-    public function getCompra()
-    {
-        return $this->compra;
-    }
-
-    /**
-     * Set the value of Compra
-     *
-     * @param mixed compra
-     *
-     * @return self
-     */
-    public function setCompra($compra)
-    {
-        $this->compra = $compra;
-
-        return $this;
-    }
 
     /**
      * Get the value of Tipo
@@ -227,6 +211,33 @@ class Detalle
     public function setCantidad($cantidad)
     {
         $this->cantidad = $cantidad;
+
+        return $this;
+    }
+
+
+
+
+    /**
+     * Get the value of Pago
+     *
+     * @return mixed
+     */
+    public function getPago()
+    {
+        return $this->pago;
+    }
+
+    /**
+     * Set the value of Pago
+     *
+     * @param mixed pago
+     *
+     * @return self
+     */
+    public function setPago($pago)
+    {
+        $this->pago = $pago;
 
         return $this;
     }

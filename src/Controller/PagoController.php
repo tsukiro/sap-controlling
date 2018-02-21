@@ -122,7 +122,7 @@ class PagoController extends Controller
   }
 
     return $this->render('default/view.pago.html.twig', array(
-       'Pago' => $pago, "urls" => $urls , "forms" => array ("solped" => $solpedform->createView(),"oc" => $ocform->createView(),"detalle" => $detalleform->createView(),)
+       'pago' => $pago, "urls" => $urls , "forms" => array ("solped" => $solpedform->createView(),"oc" => $ocform->createView(),"detalle" => $detalleform->createView(),)
    ));
   }
   /**

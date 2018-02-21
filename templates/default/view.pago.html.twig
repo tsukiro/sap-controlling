@@ -1,0 +1,238 @@
+{% extends 'default/base.html.twig' %}
+
+{% block content %}
+<div class="container ">
+  <div class="page-header">
+  <h1>Vista de Pago : {{ pago.descripcion }}</h1>
+</div>
+<div class="row">
+  <table class="table">
+    <thead>
+        <tr>
+          <th>#</th>
+          <th>Usuario</th>
+          <th>Descripción</th>
+          <th>Proveedor</th>
+          <th>Fecha</th>
+          <th>Tipo</th>
+          <th>Acción</th>
+        </tr>
+
+    </thead>
+  <br />
+        <tr>
+        <td>{{ pago.id }}</td>
+        <td>{{ pago.usuario.nombre }}</td>
+        <td>{{ pago.descripcion }}</td>
+        <td>{{ pago.proveedor.nombre }}</td>
+        <td>{{ pago.created|date("d-m-Y") }}</td>
+        <td>{{ pago.tipo }}</td>
+        <td>
+          <div class="dropdown">
+            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="pagoActionButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Acciones
+            </button>
+            <div class="dropdown-menu" aria-labelledby="pagoActionButton">
+               <a class="dropdown-item" href="{{ path("pagoEdit",{'id':pago.id}) }}">Editar</a>
+            </div>
+          </div>
+        </td>
+        </tr>
+  </table>
+</div>
+
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#detalleModal">Agregar Detalle</button>
+      <table class="table">
+        <thead>
+          <th>Descripcion</th>
+          <th>Cantidad</th>
+          <th>Valor Neto Unitario</th>
+          <th>Acción</th>
+        </thead>
+        <tbody>
+          {% if pago.detalle is defined %}
+          {% for detalle in pago.detalle %}
+          <tr>
+            <td>{{ detalle.descripcion }}</td>
+            <td>{{ detalle.cantidad }}</td>
+            <td>${{ detalle.valor }}</td>
+            <td>  <div class="dropdown">
+                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="ocActionButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Acciones
+                </button>
+                <div class="dropdown-menu" aria-labelledby="ocActionButton">
+                  <a class="dropdown-item" href="{{ path("detalleEditPago",{'id': detalle.id, 'pago': pago.id}) }}">Editar</a>
+                  <a class="dropdown-item" href="{{ path("detalleDeletePago",{'id': detalle.id, 'pago': pago.id}) }}">Eliminar</a>
+              </div>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <div class="col">
+      <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#distribucionModal">Agregar Distribución</button>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#solpedModal">Agregar Solped</button>
+
+      <table class="table">
+          <tr>
+              <th>Numero</th>
+              <th>Fecha</th>
+              <th>Estado</th>
+              <th>Acción</th>
+          </tr>
+
+      {% if pago.solpeds is defined %}
+        {% for solped in pago.solpeds %}
+        <tr>
+          <td>{{ solped.numero }}</td>
+          <td>{{ solped.created|date("d-m-Y") }}</td>
+          <td>  {{ solped.estado }}</td>
+          <td>
+            <div class="dropdown">
+              <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="solpedActionButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Acciones
+              </button>
+              <div class="dropdown-menu" aria-labelledby="solpedActionButton">
+                 <a class="dropdown-item" href="{{ path("solpedEditPago",{'id': solped.id, 'pago': pago.id}) }}">Editar</a>
+                  <div class="dropdown-divider"></div>
+                 <a class="dropdown-item" href="{{ path("solpedCambioEstadoPago",{'id': solped.id, 'pago' : pago.id, 'estado' : 0})}}">Cambiar a Pendiente</a>
+                 <a class="dropdown-item" href="{{ path("solpedCambioEstadoPago",{'id': solped.id, 'pago' : pago.id,  'estado' : 1})}}">Cambiar a Solicitada</a>
+                 <a class="dropdown-item" href="{{ path("solpedCambioEstadoPago",{'id': solped.id, 'pago' : pago.id,  'estado' : 2})}}">Cambiar a Aceptada</a>
+                 <a class="dropdown-item" href="{{ path("solpedCambioEstadoPago",{'id': solped.id, 'pago' : pago.id,  'estado' : 3})}}">Cambiar a Rechazada</a>
+              </div>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      {% endif %}
+          </table>
+    </div>
+    <div class="col">
+      <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#ocModal">Agregar OC</button>
+
+      <table class="table">
+          <tr>
+              <th>Numero</th>
+              <th>Fecha</th>
+              <th>Estado</th>
+              <th>Acción</th>
+          </tr>
+      {% if pago.ocs is defined %}
+        {% for oc in pago.ocs %}
+        <tr>
+          <td>{{ oc.numero }}</td>
+          <td>{{ oc.created|date("d-m-Y") }}</td>
+          <td>{{ oc.estado }}</td>
+          <td>
+            <div class="dropdown">
+              <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="ocActionButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Acciones
+              </button>
+              <div class="dropdown-menu" aria-labelledby="ocActionButton">
+                <a class="dropdown-item" href="{{ path("ocEditPago",{'id': oc.id, 'pago': pago.id}) }}">Editar</a>
+                 <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{ path("ocCambioEstadoPago",{'id': oc.id, 'pago' : pago.id, 'estado' : 0})}}">Cambiar a Pendiente</a>
+                <a class="dropdown-item" href="{{ path("ocCambioEstadoPago",{'id': oc.id, 'pago' : pago.id, 'estado' : 1})}}">Cambiar a Enviado a Proveedor</a>
+                <a class="dropdown-item" href="{{ path("ocCambioEstadoPago",{'id': oc.id, 'pago' : pago.id, 'estado' : 2})}}">Cambiar a Finalizado</a>
+                <a class="dropdown-item" href="{{ path("ocCambioEstadoPago",{'id': oc.id, 'pago' : pago.id, 'estado' : 3})}}">Cambiar a Anulado</a>
+              </div>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      {% endif %}
+    </table>
+    </div>
+  </div>
+  <div class="modal fade  " id="ocModal" tabindex="-1" role="dialog" aria-labelledby="ocModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ocModalLabel">Agregar Solped</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {% if forms.oc is defined %}
+          {{ form(forms.oc) }}
+        {% endif %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade  " id="solpedModal" tabindex="-1" role="dialog" aria-labelledby="solpedModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="solpedModalLabel">Agregar OC</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      {% if forms.solped is defined %}
+        {{ form(forms.solped) }}
+      {% endif %}
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+</div>
+<div class="modal fade  " id="detalleModal" tabindex="-1" role="dialog" aria-labelledby="detalleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="detalleModalLabel">Agrega Detalle</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      {% if forms.detalle is defined %}
+        {{ form(forms.detalle) }}
+      {% endif %}
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+</div>
+<div class="modal fade  " id="distribucionModal" tabindex="-1" role="dialog" aria-labelledby="distribucionModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="distribucionModalLabel">Agrega Detalle</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      {% if forms.detalle is defined %}
+        {{ form(forms.detalle) }}
+      {% endif %}
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+{% endblock content %}

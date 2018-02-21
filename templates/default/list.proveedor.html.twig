@@ -7,9 +7,9 @@
   <table class="table">
     <thead>
         <tr>
+          <th>Rut</th>
           <th>Nombre</th>
-          <th>Usuario</th>
-          <th>Password</th>
+          <th>Contrato Marco</th>
           <th>Acción</th>
         </tr>
 
@@ -23,6 +23,7 @@
       <tr>
       <td>{{ proveedor.rut }}</td>
       <td>{{ proveedor.nombre }}</td>
+      <td>{{ proveedor.contrato }}</td>
       <td><a class="btn btn-success" href="{{ path('proveedorEdit',{'id': proveedor.id })  }}">Editar</a>
        <a class="btn btn-danger" href="{{ path('proveedorDelete',{'id': proveedor.id }) }}">Eliminar</a></td>
       </tr>
