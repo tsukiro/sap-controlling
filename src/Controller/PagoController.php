@@ -113,11 +113,11 @@ class PagoController extends Controller
       //$compra = $form->getData();
       // but, the original `$task` variable has also been updated
       //$task = $form->getData();
-      $detalle->setPago($pago);
+      $pago->addDetalle($detalle);
       $em = $this->getDoctrine()->getManager();
       $em->persist($detalle);
       $em->flush();
-      $this->addFlash("Exito",("OC creada exitosamente"));
+      $this->addFlash("Exito",("Detalle agregado exitosamente"));
       return $this->redirectToRoute('pagoView',array('id'=>$pago->getId()));
   }
 

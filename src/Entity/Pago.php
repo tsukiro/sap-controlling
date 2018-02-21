@@ -95,8 +95,8 @@ class Pago
         return $this;
     }
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Detalle", mappedBy="compra")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Detalle", mappedBy="pago")
+     * @ORM\JoinColumn(name="pago_id",nullable=true)
      */
     private $detalle;
 
@@ -120,9 +120,13 @@ class Pago
      *
      * @return self
      */
-    public function setDetalle($detalle)
+    public function addDetalle($detalle)
     {
-        $this->detalle = $detalle;
+      if ($this->detalle->contains($detalle)){
+        return;
+      }
+      $this->detalle->add($detalle);
+      $detalle->setPago($this);
 
         return $this;
     }
@@ -146,6 +150,7 @@ class Pago
     {
         $this->solpeds = new ArrayCollection();
         $this->ocs = new ArrayCollection();
+        $this->detalle = new ArrayCollection();
     }
     public function addSolped(Solped $solped)
     {

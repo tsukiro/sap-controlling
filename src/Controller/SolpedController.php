@@ -12,9 +12,9 @@ use App\Form\SolpedType;
 class SolpedController extends Controller
 {
   /**
-   * @Route("/solped/edit/{tipo}/{id}", name="solpedEdit")
+   * @Route("/solped/edit/{tipo}-{number}/{id}", name="solpedEdit")
    */
-  public function edit(Solped $solped, $tipo, Request $request)
+  public function edit(Solped $solped, $tipo,$number, Request $request)
   {
     $urls = (new MenuController)->list();
     $solpedform = $this->createForm(SolpedType::class, $solped);
@@ -28,22 +28,39 @@ class SolpedController extends Controller
          $em->persist($solped);
          $em->flush();
          $this->addFlash("Exito",("Solped editada exitosamente"));
-         
-         return $this->redirectToRoute('compraView',array('id'=>$compra));
+
+         switch ($tipo) {
+           case 'Compra':
+             return $this->redirectToRoute('compraView',array('id'=>$number));
+             break;
+
+           case 'Pago':
+             return $this->redirectToRoute('pagoView',array('id'=>$number));
+             break;
+         }
+
      }
      return $this->render('default/new.html.twig', array("urls" => $urls , "form" => $solpedform->createView(),)
     );
   }
   /**
-   * @Route("/solped/edit/{id}/{compra}/{estado}", name="solpedCambioEstadoCompra")
+   * @Route("/solped/edit/{tipo}-{number}/{id}/{estado}", name="solpedCambioEstado")
    */
-   public function cambioEstado(Solped $solped,$compra,$estado){
+   public function cambioEstado(Solped $solped, $tipo,$number,$estado){
      $solped->setEstado($estado);
      $em = $this->getDoctrine()->getManager();
      $em->persist($solped);
      $em->flush();
      $this->addFlash("Exito",("Se ha cambiado el estado exitosamente."));
-     return $this->redirectToRoute('compraView',array('id'=>$compra));
+     switch ($tipo) {
+       case 'Compra':
+         return $this->redirectToRoute('compraView',array('id'=>$number));
+         break;
+
+       case 'Pago':
+         return $this->redirectToRoute('pagoView',array('id'=>$number));
+         break;
+     }
    }
 
 }

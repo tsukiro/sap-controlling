@@ -242,4 +242,29 @@ class Detalle
         return $this;
     }
 
+
+    /**
+     * Get the value of Compra
+     *
+     * @return mixed
+     */
+    public function getCompra()
+    {
+        return $this->compra;
+    }
+
+    /**
+     * Set the value of Compra
+     *
+     * @param mixed compra
+     *
+     * @return self
+     */
+    public function setCompra($compra)
+    {
+        $this->compra = $compra;
+
+        return $this;
+    }
+
 }

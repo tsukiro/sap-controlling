@@ -302,7 +302,7 @@ class Compra
     }
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Detalle", mappedBy="compra")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(name="compra_id",nullable=true)
      */
     private $detalle;
 
@@ -332,5 +332,14 @@ class Compra
 
         return $this;
     }
+    public function addDetalle($detalle)
+    {
+      if ($this->detalle->contains($detalle)){
+        return;
+      }
+      $this->detalle->add($detalle);
+      $detalle->setCompra($this);
 
+        return $this;
+    }
 }

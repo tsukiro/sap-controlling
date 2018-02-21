@@ -114,11 +114,11 @@ class CompraController extends Controller
         //$compra = $form->getData();
         // but, the original `$task` variable has also been updated
         //$task = $form->getData();
-        $detalle->setCompra($compra);
+        $compra->addDetalle($detalle);
         $em = $this->getDoctrine()->getManager();
         $em->persist($detalle);
         $em->flush();
-        $this->addFlash("Exito",("OC creada exitosamente"));
+        $this->addFlash("Exito",("Detalle agregado exitosamente"));
         return $this->redirectToRoute('compraView',array('id'=>$compra->getId()));
     }
 

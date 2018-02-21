@@ -59,12 +59,12 @@
             <td>{{ detalle.cantidad }}</td>
             <td>${{ detalle.valor }}</td>
             <td>  <div class="dropdown">
-                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="ocActionButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="detalleActionButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Acciones
                 </button>
                 <div class="dropdown-menu" aria-labelledby="ocActionButton">
-                  <a class="dropdown-item" href="{{ path("detalleEditPago",{'id': detalle.id, 'pago': pago.id}) }}">Editar</a>
-                  <a class="dropdown-item" href="{{ path("detalleDeletePago",{'id': detalle.id, 'pago': pago.id}) }}">Eliminar</a>
+                  <a class="dropdown-item" href="{{ path("detalleEdit",{'id': detalle.id, 'tipo': 'Pago', 'number' : pago.id}) }}">Editar</a>
+                  <a class="dropdown-item" href="{{ path("detalleDelete",{'id': detalle.id, 'tipo': 'Pago', 'number' : pago.id}) }}">Eliminar</a>
               </div>
               </div>
             </td>
@@ -103,12 +103,12 @@
                 Acciones
               </button>
               <div class="dropdown-menu" aria-labelledby="solpedActionButton">
-                 <a class="dropdown-item" href="{{ path("solpedEditPago",{'id': solped.id, 'pago': pago.id}) }}">Editar</a>
+                 <a class="dropdown-item" href="{{ path("solpedEdit",{'id': solped.id, 'tipo': 'Pago', 'number' : pago.id}) }}">Editar</a>
                   <div class="dropdown-divider"></div>
-                 <a class="dropdown-item" href="{{ path("solpedCambioEstadoPago",{'id': solped.id, 'pago' : pago.id, 'estado' : 0})}}">Cambiar a Pendiente</a>
-                 <a class="dropdown-item" href="{{ path("solpedCambioEstadoPago",{'id': solped.id, 'pago' : pago.id,  'estado' : 1})}}">Cambiar a Solicitada</a>
-                 <a class="dropdown-item" href="{{ path("solpedCambioEstadoPago",{'id': solped.id, 'pago' : pago.id,  'estado' : 2})}}">Cambiar a Aceptada</a>
-                 <a class="dropdown-item" href="{{ path("solpedCambioEstadoPago",{'id': solped.id, 'pago' : pago.id,  'estado' : 3})}}">Cambiar a Rechazada</a>
+                 <a class="dropdown-item" href="{{ path("solpedCambioEstado",{'id': solped.id, 'tipo': 'Pago', 'number' : pago.id,  'estado' : 0})}}">Cambiar a Pendiente</a>
+                 <a class="dropdown-item" href="{{ path("solpedCambioEstado",{'id': solped.id, 'tipo': 'Pago', 'number' : pago.id,  'estado' : 1})}}">Cambiar a Solicitada</a>
+                 <a class="dropdown-item" href="{{ path("solpedCambioEstado",{'id': solped.id, 'tipo': 'Pago', 'number' : pago.id,  'estado' : 2})}}">Cambiar a Aceptada</a>
+                 <a class="dropdown-item" href="{{ path("solpedCambioEstado",{'id': solped.id, 'tipo': 'Pago', 'number' : pago.id,  'estado' : 3})}}">Cambiar a Rechazada</a>
               </div>
             </div>
           </td>
@@ -139,12 +139,12 @@
                 Acciones
               </button>
               <div class="dropdown-menu" aria-labelledby="ocActionButton">
-                <a class="dropdown-item" href="{{ path("ocEditPago",{'id': oc.id, 'pago': pago.id}) }}">Editar</a>
+                <a class="dropdown-item" href="{{ path("ocEdit",{'id': oc.id, 'pago': pago.id}) }}">Editar</a>
                  <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{{ path("ocCambioEstadoPago",{'id': oc.id, 'pago' : pago.id, 'estado' : 0})}}">Cambiar a Pendiente</a>
-                <a class="dropdown-item" href="{{ path("ocCambioEstadoPago",{'id': oc.id, 'pago' : pago.id, 'estado' : 1})}}">Cambiar a Enviado a Proveedor</a>
-                <a class="dropdown-item" href="{{ path("ocCambioEstadoPago",{'id': oc.id, 'pago' : pago.id, 'estado' : 2})}}">Cambiar a Finalizado</a>
-                <a class="dropdown-item" href="{{ path("ocCambioEstadoPago",{'id': oc.id, 'pago' : pago.id, 'estado' : 3})}}">Cambiar a Anulado</a>
+                <a class="dropdown-item" href="{{ path("ocCambioEstado",{'id': oc.id, 'tipo': 'Pago', 'number' : pago.id, 'estado' : 0})}}">Cambiar a Pendiente</a>
+                <a class="dropdown-item" href="{{ path("ocCambioEstado",{'id': oc.id, 'tipo': 'Pago', 'number' : pago.id, 'estado' : 1})}}">Cambiar a Enviado a Proveedor</a>
+                <a class="dropdown-item" href="{{ path("ocCambioEstado",{'id': oc.id, 'tipo': 'Pago', 'number' : pago.id, 'estado' : 2})}}">Cambiar a Finalizado</a>
+                <a class="dropdown-item" href="{{ path("ocCambioEstado",{'id': oc.id, 'tipo': 'Pago', 'number' : pago.id, 'estado' : 3})}}">Cambiar a Anulado</a>
               </div>
             </div>
           </td>
@@ -158,7 +158,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="ocModalLabel">Agregar Solped</h5>
+        <h5 class="modal-title" id="ocModalLabel">Agregar OC</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -178,7 +178,7 @@
 <div class="modal-dialog" role="document">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title" id="solpedModalLabel">Agregar OC</h5>
+      <h5 class="modal-title" id="solpedModalLabel">Agregar Solped</h5>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -218,7 +218,7 @@
 <div class="modal-dialog" role="document">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title" id="distribucionModalLabel">Agrega Detalle</h5>
+      <h5 class="modal-title" id="distribucionModalLabel">Agrega Distribución</h5>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>

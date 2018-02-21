@@ -11,9 +11,9 @@ use App\Form\DetalleType;
 class DetalleController extends Controller
 {
   /**
-   * @Route("/detalle/edit/{id}/{compra}", name="detalleEditCompra")
+   * @Route("/detalle/{tipo}-{number}/edit/{id}", name="detalleEdit")
    */
-  public function edit(Detalle $detalle, $compra, Request $request)
+  public function edit(Detalle $detalle, $tipo,$number,  Request $request)
   {
     $urls = (new MenuController)->list();
     $detalleform = $this->createForm(DetalleType::class, $detalle);
@@ -27,22 +27,38 @@ class DetalleController extends Controller
          $em->persist($detalle);
          $em->flush();
          $this->addFlash("Exito",("Detalle modificado exitosamente"));
-         return $this->redirectToRoute('compraView',array('id'=>$compra));
+         switch ($tipo) {
+           case 'Compra':
+             return $this->redirectToRoute('compraView',array('id'=>$number));
+             break;
+
+           case 'Pago':
+             return $this->redirectToRoute('pagoView',array('id'=>$number));
+             break;
+         }
      }
      return $this->render('default/new.html.twig', array("urls" => $urls , "form" => $detalleform->createView(),)
     );
   }
   /**
-   * @Route("/detalle/delete/{id}/{compra}", name="detalleDeleteCompra")
+   * @Route("/detalle/{tipo}-{number}/delete/{id}", name="detalleDelete")
    */
-   public function delete(Detalle $detalle, $compra)
+   public function delete(Detalle $detalle, $tipo,$number)
    {
      $urls = (new MenuController)->list();
      $em = $this->getDoctrine()->getManager();
      $em->remove($detalle);
      $em->flush();
      $this->addFlash("Exito",("Detalle eliminado exitosamente"));
-      return $this->redirectToRoute('compraView',array('id'=>$compra));
+     switch ($tipo) {
+       case 'Compra':
+         return $this->redirectToRoute('compraView',array('id'=>$number));
+         break;
+
+       case 'Pago':
+         return $this->redirectToRoute('pagoView',array('id'=>$number));
+         break;
+     }
 
    }
 }
