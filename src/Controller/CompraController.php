@@ -28,15 +28,16 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 class CompraController extends Controller
 {
     /**
-     * @Route("/compra", name="compra")
+     * @Route("/compra/{page}", name="compra",requirements={"page"="\d+"})
      */
-    public function index()
+    public function index($page = 1)
     {
-      $urls = MenuController::list();
       $em = $this->getDoctrine()->getRepository(Compra::class);
-      $compras = $em->findAll();
-
-      return $this->render("default/list.compra.html.twig",array("urls" => $urls,"compras" => $compras));
+      $compras = $em->getAllCompras($page);
+      $limit = 10;
+      $maxPages = ceil($compras->count() / $limit);
+      $thisPage = $page;
+      return $this->render("default/list.compra.html.twig",compact('maxPages', 'thisPage','compras'));
     }
 
     /**
@@ -44,8 +45,7 @@ class CompraController extends Controller
     */
     public function nuevo(Request $request)
     {
-      $urls = MenuController::list();
-      $compra = new Compra();
+        $compra = new Compra();
       $compra->setEstado(0);
       $form = $this->createForm(CompraType::class, $compra);
 
@@ -65,14 +65,13 @@ class CompraController extends Controller
           return $this->redirectToRoute('compra');
       }
           return $this->render('default/new.html.twig', array(
-             'form' => $form->createView(), "urls" => $urls ,
+             'form' => $form->createView(),
          ));
     }
     /**
     * @Route("/compra/view/{id}", name="compraView")
     */
     public function view(Compra $compra, Request $request){
-      $urls = (new MenuController)->list();
       $solped = new Solped;
       $oc = new OC;
       $detalle = new Detalle;
@@ -123,7 +122,7 @@ class CompraController extends Controller
     }
 
       return $this->render('default/view.compra.html.twig', array(
-         'compra' => $compra, "urls" => $urls , "forms" => array ("solped" => $solpedform->createView(),"oc" => $ocform->createView(),"detalle" => $detalleform->createView(),)
+         'compra' => $compra, "forms" => array ("solped" => $solpedform->createView(),"oc" => $ocform->createView(),"detalle" => $detalleform->createView(),)
      ));
     }
     /**
@@ -131,7 +130,6 @@ class CompraController extends Controller
     */
     public function edit(Compra $compra,Request $request)
     {
-      $urls = MenuController::list();
       $compra->setEstado(0);
       $form = $this->createForm(CompraType::class, $compra);
 
@@ -152,7 +150,7 @@ class CompraController extends Controller
           return $this->redirectToRoute('compraView',array("id"=>$compra->getId()));
       }
           return $this->render('default/new.html.twig', array(
-             'form' => $form->createView(), "urls" => $urls ,
+             'form' => $form->createView(),
          ));
     }
 }

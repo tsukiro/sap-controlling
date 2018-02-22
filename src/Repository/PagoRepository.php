@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Pago;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class PagoRepository extends ServiceEntityRepository
 {
@@ -25,4 +26,27 @@ class PagoRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function getAllPagos($currentPage = 1)
+    {
+        // Create our query
+        $query = $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'DESC')
+            ->getQuery();
+
+        // No need to manually get get the result ($query->getResult())
+
+        $paginator = $this->paginate($query, $currentPage,10);
+
+        return $paginator;
+    }
+    public function paginate($dql, $page = 1, $limit = 5)
+    {
+        $paginator = new Paginator($dql);
+
+        $paginator->getQuery()
+            ->setFirstResult($limit * ($page - 1)) // Offset
+            ->setMaxResults($limit); // Limit
+
+        return $paginator;
+    }
 }

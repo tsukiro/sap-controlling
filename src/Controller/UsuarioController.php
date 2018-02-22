@@ -21,18 +21,15 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-
-      $urls = MenuController::list();
       $em = $this->getDoctrine()->getRepository(Usuario::class);
       $usuarios = $em->findAll();
 
-      return $this->render("default/list.usuario.html.twig",array("urls" => $urls,"usuarios" => $usuarios));
+      return $this->render("default/list.usuario.html.twig",array("usuarios" => $usuarios));
     }
     /**
      * @Route("/usuario/nuevo", name="usuarioNuevo")
      */
     public function nuevo(Request $request){
-      $urls = MenuController::list();
       $usuario = new Usuario();
       $form = $this->createFormBuilder($usuario)
           ->add('nombre', TextType::class)
@@ -56,14 +53,13 @@ class UsuarioController extends Controller
           return $this->redirectToRoute('usuario');
       }
           return $this->render('default/new.html.twig', array(
-             'form' => $form->createView(), "urls" => $urls ,
+             'form' => $form->createView(),
          ));
     }
     /**
      * @Route("/usuario/edit/{id}", name="usuarioEdit")
      */
     public function edit(Usuario $usuario,Request $request){
-      $urls = MenuController::list();
       $form = $this->createFormBuilder($usuario)
           ->add('nombre', TextType::class)
           ->add('username', TextType::class)
@@ -86,7 +82,7 @@ class UsuarioController extends Controller
           return $this->redirectToRoute('usuario');
       }
           return $this->render('default/new.html.twig', array(
-             'form' => $form->createView(), 'urls' => $urls,
+             'form' => $form->createView(), 
          ));
     }
     /**

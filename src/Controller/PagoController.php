@@ -27,15 +27,16 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 class PagoController extends Controller
 {
   /**
-   * @Route("/pago", name="pago")
+   * @Route("/pago/{page}", name="pago",requirements={"page"="\d+"})
    */
-  public function index()
+  public function index($page = 1)
   {
-    $urls = MenuController::list();
     $em = $this->getDoctrine()->getRepository(Pago::class);
-    $pagos = $em->findAll();
-
-    return $this->render("default/list.pago.html.twig",array("urls" => $urls,"pagos" => $pagos));
+    $pagos = $em->getAllPagos($page);
+    $limit = 10;
+    $maxPages = ceil($pagos->count() / $limit);
+    $thisPage = $page;
+    return $this->render("default/list.pago.html.twig",compact('maxPages', 'thisPage','pagos'));
   }
 
   /**
@@ -43,7 +44,6 @@ class PagoController extends Controller
   */
   public function nuevo(Request $request)
   {
-    $urls = MenuController::list();
     $pago = new Pago();
     $pago->setEstado(0);
     $form = $this->createForm(PagoType::class, $pago);
@@ -64,14 +64,13 @@ class PagoController extends Controller
         return $this->redirectToRoute('pago');
     }
         return $this->render('default/new.html.twig', array(
-           'form' => $form->createView(), "urls" => $urls ,
+           'form' => $form->createView(),
        ));
   }
   /**
   * @Route("/pago/view/{id}", name="pagoView")
   */
   public function view(Pago $pago, Request $request){
-    $urls = (new MenuController)->list();
     $solped = new Solped;
     $oc = new OC;
     $detalle = new Detalle;
@@ -122,7 +121,7 @@ class PagoController extends Controller
   }
 
     return $this->render('default/view.pago.html.twig', array(
-       'pago' => $pago, "urls" => $urls , "forms" => array ("solped" => $solpedform->createView(),"oc" => $ocform->createView(),"detalle" => $detalleform->createView(),)
+       'pago' => $pago, "forms" => array ("solped" => $solpedform->createView(),"oc" => $ocform->createView(),"detalle" => $detalleform->createView(),)
    ));
   }
   /**
@@ -130,7 +129,6 @@ class PagoController extends Controller
   */
   public function edit(Pago $pago,Request $request)
   {
-    $urls = MenuController::list();
     $pago->setEstado(0);
     $form = $this->createForm(PagoType::class, $pago);
 
@@ -151,7 +149,7 @@ class PagoController extends Controller
         return $this->redirectToRoute('pagoView',array("id"=>$pago->getId()));
     }
         return $this->render('default/new.html.twig', array(
-           'form' => $form->createView(), "urls" => $urls ,
+           'form' => $form->createView(),
        ));
   }
 }

@@ -36,6 +36,12 @@ class PagoType extends AbstractType
                 'Material' => 0,
                 'Servicio' => 1,
             )))
+        ->add('estado', ChoiceType::class,array(
+          'choices' => array(
+              'Pendiente' => 0,
+              'Finalizado' => 1,
+              'Anulado' => 2,
+          )))
         //->add('fecha', DateType::class,array("data" => new \DateTime("now")))
         ->add('save', SubmitType::class, array('label' => 'Agregar/Modificar Pago'))
         ;

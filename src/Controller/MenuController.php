@@ -6,7 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
-class MenuController
+class MenuController extends Controller
 {
     /**
     * @Route("/menulist",name="menuList")
@@ -29,6 +29,9 @@ class MenuController
           array("url" => "pago","title" => "Listar Pagos"),
           array("url" => "pagoNuevo","title" => "Crear nuevo pago"),
       ), "title" => "Pagos");
-      return $urls;
+      return $this->render(
+            'default/parts/header.html.twig',
+            array('urls' => $urls)
+        );
     }
 }

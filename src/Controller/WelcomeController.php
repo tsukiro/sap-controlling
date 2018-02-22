@@ -14,8 +14,6 @@ class WelcomeController extends Controller
      */
     public function index()
     {
-      $urls = MenuController::list();
-
-        return $this->render("default/base.html.twig",array("urls" => $urls,));
+        return $this->render("default/base.html.twig");
     }
 }

@@ -6,26 +6,27 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
-  {% for direction in urls %}
-      {% if direction.url is defined  %}
-        <li class="nav-item">
-          <a href="{{ path(direction.url) }}" class="nav-link" >{{ direction.title }}</a>
-        </li>
 
-      {% endif %}
-      {% if direction.drop is defined %}
-      <li class="nav-item dropdown">
-         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-           {{ direction.title }}
-         </a>
-         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-           {% for item in direction.drop %}
-           <a class="dropdown-item" href="{{ path(item.url) }}">{{item.title}}</a>
-           {% endfor %}
-         </div>
-       </li>
-      {% endif %}
-  {% endfor %}
+      {% for direction in urls %}
+          {% if direction.url is defined  %}
+            <li class="nav-item">
+              <a href="{{ path(direction.url) }}" class="nav-link" >{{ direction.title }}</a>
+            </li>
+
+          {% endif %}
+          {% if direction.drop is defined %}
+          <li class="nav-item dropdown">
+             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               {{ direction.title }}
+             </a>
+             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+               {% for item in direction.drop %}
+               <a class="dropdown-item" href="{{ path(item.url) }}">{{item.title}}</a>
+               {% endfor %}
+             </div>
+           </li>
+          {% endif %}
+      {% endfor %}
 </ul>
   </div>
 </nav>

@@ -16,7 +16,6 @@ class SolpedController extends Controller
    */
   public function edit(Solped $solped, $tipo,$number, Request $request)
   {
-    $urls = (new MenuController)->list();
     $solpedform = $this->createForm(SolpedType::class, $solped);
     $solpedform->handleRequest($request);
       if ($solpedform->isSubmitted() && $solpedform->isValid()) {
@@ -40,7 +39,7 @@ class SolpedController extends Controller
          }
 
      }
-     return $this->render('default/new.html.twig', array("urls" => $urls , "form" => $solpedform->createView(),)
+     return $this->render('default/new.html.twig', array("form" => $solpedform->createView(),)
     );
   }
   /**

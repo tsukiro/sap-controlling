@@ -16,7 +16,6 @@ class OcController extends Controller
    */
   public function edit(OC $oc,$tipo,$number, Request $request)
   {
-    $urls = (new MenuController)->list();
     $ocform = $this->createForm(OcType::class, $oc);
     $ocform->handleRequest($request);
       if ($ocform->isSubmitted() && $ocform->isValid()) {
@@ -38,7 +37,7 @@ class OcController extends Controller
              break;
          }
      }
-     return $this->render('default/new.html.twig', array("urls" => $urls , "form" => $ocform->createView(),)
+     return $this->render('default/new.html.twig', array("form" => $ocform->createView(),)
     );
   }
   /**
@@ -59,5 +58,11 @@ class OcController extends Controller
          return $this->redirectToRoute('pagoView',array('id'=>$number));
          break;
      }
+   }
+  /**
+   * @Route("/oc/find/{id}", name="ocFind")
+   */
+   public function find(OC $oc){
+
    }
 }

@@ -13,7 +13,7 @@
         {% endblock %}
     </head>
     <body>
-        {{ include("default/parts/header.html.twig") }}
+        {{ render(controller('App\\Controller\\MenuController::list')) }}
         {{ include("default/parts/messages.html.twig") }}
         {% block content %}
 

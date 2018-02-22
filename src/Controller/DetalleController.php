@@ -15,7 +15,6 @@ class DetalleController extends Controller
    */
   public function edit(Detalle $detalle, $tipo,$number,  Request $request)
   {
-    $urls = (new MenuController)->list();
     $detalleform = $this->createForm(DetalleType::class, $detalle);
     $detalleform->handleRequest($request);
       if ($detalleform->isSubmitted() && $detalleform->isValid()) {
@@ -37,7 +36,7 @@ class DetalleController extends Controller
              break;
          }
      }
-     return $this->render('default/new.html.twig', array("urls" => $urls , "form" => $detalleform->createView(),)
+     return $this->render('default/new.html.twig', array("form" => $detalleform->createView(),)
     );
   }
   /**
@@ -45,7 +44,6 @@ class DetalleController extends Controller
    */
    public function delete(Detalle $detalle, $tipo,$number)
    {
-     $urls = (new MenuController)->list();
      $em = $this->getDoctrine()->getManager();
      $em->remove($detalle);
      $em->flush();

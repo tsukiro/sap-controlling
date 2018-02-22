@@ -17,18 +17,15 @@ class ProveedorController extends Controller
    */
   public function index()
   {
-
-    $urls = MenuController::list();
     $em = $this->getDoctrine()->getRepository(Proveedor::class);
     $proveedores = $em->findAll();
 
-    return $this->render("default/list.proveedor.html.twig",array("urls" => $urls,"proveedores" => $proveedores));
+    return $this->render("default/list.proveedor.html.twig",array("proveedores" => $proveedores));
   }
   /**
    * @Route("/proveedor/nuevo", name="proveedorNuevo")
    */
   public function nuevo(Request $request){
-    $urls = MenuController::list();
     $proveedor = new Proveedor();
     $form = $this->createForm(ProveedorType::class, $proveedor);
 
@@ -48,14 +45,13 @@ class ProveedorController extends Controller
         return $this->redirectToRoute('proveedor');
     }
         return $this->render('default/new.html.twig', array(
-           'form' => $form->createView(), "urls" => $urls ,
+           'form' => $form->createView(), 
        ));
   }
   /**
    * @Route("/proveedor/edit/{id}", name="proveedorEdit")
    */
   public function edit(Proveedor $proveedor,Request $request){
-    $urls = MenuController::list();
     $form = $this->createForm(ProveedorType::class, $proveedor);
 
      $form->handleRequest($request);
@@ -73,7 +69,7 @@ class ProveedorController extends Controller
         return $this->redirectToRoute('proveedor');
     }
         return $this->render('default/new.html.twig', array(
-           'form' => $form->createView(), 'urls' => $urls,
+           'form' => $form->createView(),
        ));
   }
   /**

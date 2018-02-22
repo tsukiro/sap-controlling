@@ -139,7 +139,7 @@
                 Acciones
               </button>
               <div class="dropdown-menu" aria-labelledby="ocActionButton">
-                <a class="dropdown-item" href="{{ path("ocEdit",{'id': oc.id, 'pago': pago.id}) }}">Editar</a>
+                <a class="dropdown-item" href="{{ path("ocEdit",{'id': oc.id, 'tipo': 'Pago', 'number' : pago.id,}) }}">Editar</a>
                  <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{{ path("ocCambioEstado",{'id': oc.id, 'tipo': 'Pago', 'number' : pago.id, 'estado' : 0})}}">Cambiar a Pendiente</a>
                 <a class="dropdown-item" href="{{ path("ocCambioEstado",{'id': oc.id, 'tipo': 'Pago', 'number' : pago.id, 'estado' : 1})}}">Cambiar a Enviado a Proveedor</a>

@@ -44,6 +44,28 @@
       {% endfor %}
     {% endif %}
     </table>
+    <nav aria-label="Navigation compras">
+  {% if maxPages > 1 %}
+    <ul class="pagination justify-content-center">
+        {# `«` arrow  #}
+        <li {{ thisPage == 1 ? 'class=" page-item disabled"' }}>
+            <a class="page-link" href="{{ path('compra', {page: thisPage -1 < 1 ? 1 : thisPage -1}) }}">«</a>
+        </li>
+
+        {# Render each page number #}
+        {% for i in 1..maxPages %}
+        <li {{ thisPage == i ? 'class="page-item active"' }}>
+        <a class="page-link" href="{{ path('compra', {page: i}) }}">{{ i }}</a>
+        </li>
+        {% endfor %}
+
+        {# `»` arrow #}
+        <li {{ thisPage == maxPages ? 'class="page-item disabled"' }}>
+            <a class="page-link" href="{{ path('compra', {page: thisPage+1 <= maxPages ? thisPage+1 : thisPage}) }}">»</a>
+        </li>
+    </ul>
+  {% endif %}
+  </nav>
   </div>
 </div>
 {% endblock content %}
