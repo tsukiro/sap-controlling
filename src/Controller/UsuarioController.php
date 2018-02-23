@@ -10,8 +10,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
 
 use App\Entity\Usuario;
+use App\Form\UsuarioType;
 
 class UsuarioController extends Controller
 {
@@ -29,14 +32,10 @@ class UsuarioController extends Controller
     /**
      * @Route("/usuario/nuevo", name="usuarioNuevo")
      */
-    public function nuevo(Request $request){
+    public function nuevo(Request $request,UserPasswordEncoderInterface $passwordEncoder){
       $usuario = new Usuario();
-      $form = $this->createFormBuilder($usuario)
-          ->add('nombre', TextType::class)
-          ->add('username', TextType::class)
-          ->add('password', PasswordType::class)
-          ->add('save', SubmitType::class, array('label' => 'Agregar Usuario'))
-          ->getForm();
+      $form = $this->createForm(UsuarioType::class,$usuario);
+
 
        $form->handleRequest($request);
 
@@ -45,7 +44,8 @@ class UsuarioController extends Controller
           // but, the original `$task` variable has also been updated
           //$task = $form->getData();
 
-
+            $password = $passwordEncoder->encodePassword($usuario, $usuario->getPlainPassword());
+           $usuario->setPassword($password);
            $em = $this->getDoctrine()->getManager();
            $em->persist($usuario);
            $em->flush();
@@ -60,12 +60,7 @@ class UsuarioController extends Controller
      * @Route("/usuario/edit/{id}", name="usuarioEdit")
      */
     public function edit(Usuario $usuario,Request $request){
-      $form = $this->createFormBuilder($usuario)
-          ->add('nombre', TextType::class)
-          ->add('username', TextType::class)
-          //->add('password', TextType::class)
-          ->add('save', SubmitType::class, array('label' => 'Modificar'))
-          ->getForm();
+      $form = $this->createForm(UsuarioType::class,$usuario);
 
        $form->handleRequest($request);
 
@@ -82,7 +77,7 @@ class UsuarioController extends Controller
           return $this->redirectToRoute('usuario');
       }
           return $this->render('default/new.html.twig', array(
-             'form' => $form->createView(), 
+             'form' => $form->createView(),
          ));
     }
     /**

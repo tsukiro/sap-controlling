@@ -19,6 +19,7 @@
             <th>Usuario</th>
             <th>Descripción</th>
             <th>Proveedor</th>
+            <th>CM</th>
             <th>Fecha</th>
             <th>Tipo</th>
             <th>Estado</th>
@@ -31,13 +32,17 @@
       {% for pago in pagos %}
           <tr>
           <td>{{ pago.id }}</td>
-          <td>{{ pago.usuario.nombre }}</td>
+          <td> <img  data-toggle="tooltip" data-placement="top" title="{{ pago.usuario.nombre }}" src="{{ asset(path('image',{'name': pago.usuario.nombre,'_format':'png'} )) }}"  width="30" height="30" style="border-radius: 100%" /> </td>
           <td>{{ pago.descripcion }}</td>
           <td>{{ pago.proveedor.nombre }}</td>
+          <td>{{ pago.proveedor.contrato }}</td>
           <td>{{ pago.created|date("d-m-Y") }}</td>
           <td>{{ pago.tipo }}</td>
           <td>{{ pago.estado }}</td>
-          <td><a class="btn btn-success" href="{{ path('pagoView',{'id': pago.id })  }}">Ver</a></td>
+          <td>
+            <a class="btn btn-success" href="{{ path('pagoView',{'id': pago.id })  }}">Ver</a>
+            <a class="btn btn-danger" href="{{ path('pagoDelete',{'id': pago.id })  }}">Eliminar</a>
+          </td>
 
 
           </tr>
@@ -49,19 +54,19 @@
     <ul class="pagination justify-content-center">
         {# `«` arrow  #}
         <li {{ thisPage == 1 ? 'class=" page-item disabled"' }}>
-            <a class="page-link" href="{{ path('compra', {page: thisPage -1 < 1 ? 1 : thisPage -1}) }}">«</a>
+            <a class="page-link" href="{{ path('pago', {page: thisPage -1 < 1 ? 1 : thisPage -1}) }}">«</a>
         </li>
 
         {# Render each page number #}
         {% for i in 1..maxPages %}
         <li {{ thisPage == i ? 'class="page-item active"' }}>
-        <a class="page-link" href="{{ path('compra', {page: i}) }}">{{ i }}</a>
+        <a class="page-link" href="{{ path('pago', {page: i}) }}">{{ i }}</a>
         </li>
         {% endfor %}
 
         {# `»` arrow #}
         <li {{ thisPage == maxPages ? 'class="page-item disabled"' }}>
-            <a class="page-link" href="{{ path('compra', {page: thisPage+1 <= maxPages ? thisPage+1 : thisPage}) }}">»</a>
+            <a class="page-link" href="{{ path('pago', {page: thisPage+1 <= maxPages ? thisPage+1 : thisPage}) }}">»</a>
         </li>
     </ul>
   {% endif %}

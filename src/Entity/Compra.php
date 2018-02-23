@@ -305,6 +305,11 @@ class Compra
      * @ORM\JoinColumn(name="compra_id",nullable=true)
      */
     private $detalle;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Distribucion", mappedBy="compra")
+     * @ORM\JoinColumn(name="compra_id",nullable=true)
+     */
+    private $distribucion;
 
 
 
@@ -342,4 +347,41 @@ class Compra
 
         return $this;
     }
+
+
+
+    /**
+     * Get the value of Distribucion
+     *
+     * @return mixed
+     */
+    public function getDistribucion()
+    {
+        return $this->distribucion;
+    }
+
+    /**
+     * Set the value of Distribucion
+     *
+     * @param mixed distribucion
+     *
+     * @return self
+     */
+    public function setDistribucion($distribucion)
+    {
+        $this->distribucion = $distribucion;
+
+        return $this;
+    }
+    public function addDistribucion($distribucion)
+    {
+      if ($this->distribucion->contains($distribucion)){
+        return;
+      }
+      $this->distribucion->add($distribucion);
+      $distribucion->setCompra($this);
+
+        return $this;
+    }
+
 }

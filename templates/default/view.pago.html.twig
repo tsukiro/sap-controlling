@@ -76,7 +76,35 @@
     </div>
     <div class="col">
       <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#distribucionModal">Agregar Distribución</button>
-
+      <table class="table">
+        <thead>
+          <th>Cantidad</th>
+          <th>Cuenta</th>
+          <th>Ceco</th>
+          <th>Acción</th>
+        </thead>
+        <tbody>
+          {% if pago.distribucion is defined %}
+          {% for distribucion in pago.distribucion %}
+          <tr>
+            <td>{{ distribucion.cantidad }}</td>
+            <td>{{ distribucion.cuenta }}</td>
+            <td>{{ distribucion.ceco }}</td>
+            <td>  <div class="dropdown">
+                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="distribucionActionButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Acciones
+                </button>
+                <div class="dropdown-menu" aria-labelledby="distribucionActionButton">
+                  <a class="dropdown-item" href="{{ path("distribucionEdit",{'id': distribucion.id, 'tipo': 'Pago', 'number' : pago.id}) }}">Editar</a>
+                  <a class="dropdown-item" href="{{ path("distribucionDelete",{'id': distribucion.id, 'tipo': 'Pago', 'number' : pago.id}) }}">Eliminar</a>
+            </div>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+          {% endif %}
+        </tbody>
+      </table>
     </div>
   </div>
   <div class="row">
@@ -224,8 +252,8 @@
       </button>
     </div>
     <div class="modal-body">
-      {% if forms.detalle is defined %}
-        {{ form(forms.detalle) }}
+      {% if forms.distribucion is defined %}
+        {{ form(forms.distribucion) }}
       {% endif %}
     </div>
     <div class="modal-footer">

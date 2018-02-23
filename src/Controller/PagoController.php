@@ -12,10 +12,12 @@ use App\Entity\Solped;
 use App\Entity\OC;
 use App\Entity\Detalle;
 use App\Entity\Proveedor;
+use App\Entity\Distribucion;
 use App\Form\PagoType;
 use App\Form\SolpedType;
 use App\Form\OcType;
 use App\Form\DetalleType;
+use App\Form\DistribucionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -23,6 +25,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
 
 class PagoController extends Controller
 {
@@ -73,19 +76,30 @@ class PagoController extends Controller
   public function view(Pago $pago, Request $request){
     $solped = new Solped;
     $oc = new OC;
+    $distribucion = new Distribucion;
     $detalle = new Detalle;
     $detalle->setTipo($pago->getTipo());
     $detalle->setMedida("UND");
     $detalle->setTiempo("D");
     $detalle->setCantidad(1);
+    $distribucionform = $this->createForm(DistribucionType::class, $distribucion);
     $detalleform = $this->createForm(DetalleType::class, $detalle);
     $solpedform = $this->createForm(SolpedType::class, $solped);
     $ocform = $this->createForm(OcType::class, $oc);
     $detalleform->handleRequest($request);
     $solpedform->handleRequest($request);
     $ocform->handleRequest($request);
+    $distribucionform->handleRequest($request);
     $id = $pago->getId();
 
+    if ($distribucionform->isSubmitted() && $distribucionform->isValid()) {
+      $pago->addDistribucion($distribucion);
+      $em = $this->getDoctrine()->getManager();
+      $em->persist($distribucion);
+      $em->flush();
+      $this->addFlash("Exito",("Distribución agregada exitosamente"));
+      return $this->redirectToRoute('pagoView',array('id'=>$pago->getId()));
+   }
     if ($solpedform->isSubmitted() && $solpedform->isValid()) {
        //$compra = $form->getData();
        // but, the original `$task` variable has also been updated
@@ -121,7 +135,7 @@ class PagoController extends Controller
   }
 
     return $this->render('default/view.pago.html.twig', array(
-       'pago' => $pago, "forms" => array ("solped" => $solpedform->createView(),"oc" => $ocform->createView(),"detalle" => $detalleform->createView(),)
+       'pago' => $pago, "forms" => array ("solped" => $solpedform->createView(),"oc" => $ocform->createView(),"detalle" => $detalleform->createView(),"distribucion" => $distribucionform->createView(),)
    ));
   }
   /**
@@ -152,4 +166,17 @@ class PagoController extends Controller
            'form' => $form->createView(),
        ));
   }
+
+  /**
+  * @Route("/pago/delete/{id}", name="pagoDelete")
+  */
+  public function delete(Pago $pago,Request $request)
+  {
+         $em = $this->getDoctrine()->getManager();
+         $em->remove($pago);
+         $em->flush();
+        $this->addFlash("Exito",("Eliminado exitosamente"));
+        return $this->redirectToRoute('pago');
+   }
+
 }

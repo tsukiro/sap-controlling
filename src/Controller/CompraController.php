@@ -12,10 +12,12 @@ use App\Entity\Solped;
 use App\Entity\OC;
 use App\Entity\Detalle;
 use App\Entity\Proveedor;
+use App\Entity\Distribucion;
 use App\Form\CompraType;
 use App\Form\SolpedType;
 use App\Form\OcType;
 use App\Form\DetalleType;
+use App\Form\DistribucionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -74,19 +76,30 @@ class CompraController extends Controller
     public function view(Compra $compra, Request $request){
       $solped = new Solped;
       $oc = new OC;
+      $distribucion = new Distribucion;
       $detalle = new Detalle;
       $detalle->setTipo($compra->getTipo());
       $detalle->setMedida("UND");
       $detalle->setTiempo("D");
       $detalle->setCantidad(1);
       $detalleform = $this->createForm(DetalleType::class, $detalle);
+      $distribucionform = $this->createForm(DistribucionType::class, $distribucion);
       $solpedform = $this->createForm(SolpedType::class, $solped);
       $ocform = $this->createForm(OcType::class, $oc);
       $detalleform->handleRequest($request);
       $solpedform->handleRequest($request);
       $ocform->handleRequest($request);
+      $distribucionform->handleRequest($request);
       $id = $compra->getId();
 
+      if ($distribucionform->isSubmitted() && $distribucionform->isValid()) {
+        $compra->addDistribucion($distribucion);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($distribucion);
+        $em->flush();
+        $this->addFlash("Exito",("Distribución agregada exitosamente"));
+        return $this->redirectToRoute('compraView',array('id'=>$compra->getId()));
+     }
       if ($solpedform->isSubmitted() && $solpedform->isValid()) {
          //$compra = $form->getData();
          // but, the original `$task` variable has also been updated
@@ -122,7 +135,7 @@ class CompraController extends Controller
     }
 
       return $this->render('default/view.compra.html.twig', array(
-         'compra' => $compra, "forms" => array ("solped" => $solpedform->createView(),"oc" => $ocform->createView(),"detalle" => $detalleform->createView(),)
+         'compra' => $compra, "forms" => array ("solped" => $solpedform->createView(),"oc" => $ocform->createView(),"detalle" => $detalleform->createView(), "distribucion" => $distribucionform->createView(),)
      ));
     }
     /**

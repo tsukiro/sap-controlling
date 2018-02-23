@@ -1,14 +1,26 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    encoders:
+        App\Entity\Usuario: bcrypt
     providers:
         in_memory: { memory: ~ }
+        user_db_provider:
+            entity:
+              class: App\Entity\Usuario
+              
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: ~
-
+            form_login:
+                login_path: login
+                check_path: login
+            provider: user_db_provider
+    access_control:
+      - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: ^/, roles: ROLE_USER }
             # activate different ways to authenticate
 
             # http_basic: ~

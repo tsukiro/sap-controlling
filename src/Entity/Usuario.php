@@ -7,12 +7,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UsuarioRepository")
  * @UniqueEntity(fields="username", message="Usuario ya existe.")
  */
-class Usuario
+class Usuario implements UserInterface
 {
     /**
     * @ORM\OneToMany(targetEntity="App\Entity\Compra", mappedBy="usuario")
@@ -44,6 +45,8 @@ class Usuario
     public function __Construct(){
       $this->compras = new ArrayCollection();
       $this->pagos = new ArrayCollection();
+
+
     }
 
     /**
@@ -57,20 +60,30 @@ class Usuario
     * @ORM\Column(type="string",nullable=false)
     */
     private $nombre;
-
     /**
-    * @ORM\Column(type="string",unique=true)
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Email()
+     */
+    private $email;
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Length(max=4096)
+     */
+    private $plainPassword;
+    /**
+    * @ORM\Column(type="string", length=255, unique=true)
     * @Assert\NotBlank();
     */
     private $username;
 
     /**
-    * @ORM\Column(type="string",nullable=false)
-    */
-    private $password;
-
-
-
+      * The below length depends on the "algorithm" you use for encoding
+      * the password, but this works well with bcrypt.
+      *
+      * @ORM\Column(type="string", length=64)
+      */
+     private $password;
     /**
      * Get the value of Id
      *
@@ -105,52 +118,86 @@ class Usuario
         return $this;
     }
 
-    /**
-     * Get the value of Username
-     *
-     * @return mixed
-     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
     public function getUsername()
     {
         return $this->username;
     }
 
-    /**
-     * Set the value of Username
-     *
-     * @param mixed username
-     *
-     * @return self
-     */
     public function setUsername($username)
     {
         $this->username = $username;
-
-        return $this;
     }
 
-    /**
-     * Get the value of Password
-     *
-     * @return mixed
-     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
+    }
+
     public function getPassword()
     {
         return $this->password;
     }
 
-    /**
-     * Set the value of Password
-     *
-     * @param mixed password
-     *
-     * @return self
-     */
     public function setPassword($password)
     {
         $this->password = $password;
-
-        return $this;
     }
+
+    public function getSalt()
+    {
+        // The bcrypt and argon2i algorithms don't require a separate salt.
+        // You *may* need a real salt if you choose a different encoder.
+        return null;
+    }
+    public function getRoles()
+      {
+          return array('ROLE_USER');
+      }
+      public function eraseCredentials()
+  {
+  }
+      /** @see \Serializable::serialize() */
+         public function serialize()
+         {
+             return serialize(array(
+                 $this->id,
+                 $this->username,
+                 $this->password,
+                 $this->email,
+                 $this->nombre,
+                 // see section on salt below
+                 // $this->salt,
+             ));
+         }
+
+         /** @see \Serializable::unserialize() */
+         public function unserialize($serialized)
+         {
+             list (
+                 $this->id,
+                 $this->username,
+                 $this->password,
+                 $this->email,
+                 $this->nombre,
+                 // see section on salt below
+                 // $this->salt
+             ) = unserialize($serialized);
+         }
+
 
 }

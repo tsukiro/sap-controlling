@@ -32,7 +32,7 @@
       {% for compra in compras %}
           <tr>
           <td>{{ compra.id }}</td>
-          <td>{{ compra.usuario.nombre }}</td>
+          <td><img  data-toggle="tooltip" data-placement="top" title="{{ compra.usuario.nombre }}" src="{{ asset(path('image',{'name': compra.usuario.nombre,'_format':'png'} )) }}"  width="30" height="30" style="border-radius: 100%" /></td>
           <td>{{ compra.descripcion }}</td>
           <td>{{ compra.proveedor.nombre }}</td>
           <td>{{ compra.solicitante }}</td>

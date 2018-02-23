@@ -1,0 +1,36 @@
+{# templates/security/login.html.twig #}
+{# ... you will probably extend your base template, like base.html.twig #}
+{% extends 'default/base.html.twig' %}
+
+{% block content %}
+
+<div class="container-fluid">
+  <br />
+  <div class="jumbotron">
+      <h1 class="display-4">Hola, Bienvenido</h1>
+      <p class="lead">Debes iniciar sesión para acceder a este portal.</p>
+      <hr class="my-4">
+      <p>Si necesitas acceso, favor contacta al administrador del sistema.</p>
+      <p class="lead">
+        <form role="form" action="{{ path('login') }}" method="post">
+          <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control"  id="username" name="_username" value="{{ last_username }}" />
+          </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" name="_password" />
+          </div>
+            {#
+                If you want to control the URL the user
+                is redirected to on success (more details below)#}
+                <input type="hidden" name="_target_path" value="/" />
+
+
+            <button type="submit" class="btn btn-primary">login</button>
+        </form>
+      </p>
+    </div>
+
+</div>
+{% endblock content %}

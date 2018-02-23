@@ -10,15 +10,18 @@
       {% endblock %}
         {% block stylesheets %}
             <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
+            <link href="{{ asset('css/custom.default.css') }}" rel="stylesheet" />
         {% endblock %}
+        <link rel="icon" href="{{ asset(path('image',{'name': 'Controlling Portal','_format':'png'})) }}">
     </head>
     <body>
         {{ render(controller('App\\Controller\\MenuController::list')) }}
         {{ include("default/parts/messages.html.twig") }}
         {% block content %}
 
-        <div class="row">
+
           <div class="container-fluid">
+              <br />
             <div class="jumbotron">
               <h1 class="display-4">Hola, Bienvenido</h1>
               <p class="lead">En este portal podrás administrar y llevar un control de los Pagos y Compras.</p>
@@ -33,12 +36,18 @@
               </p>
             </div>
           </div>
-        </div>
+
 
         {% endblock content %}
 
         {% block javascripts %}
             <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+            <script type="text/javascript">
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+                })
+            </script>
         {% endblock %}
+        {% include('default/parts/footer.html.twig') %}
     </body>
 </html>
