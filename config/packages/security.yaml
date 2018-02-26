@@ -2,7 +2,7 @@ security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     encoders:
         App\Entity\Usuario: bcrypt
-        Symfony\Component\Security\Core\User\User: plaintext
+        Symfony\Component\Security\Core\User\User: bcrypt
     providers:
       chain_provider:
             chain:
@@ -11,7 +11,7 @@ security:
           memory:
                 users:
                     admin:
-                        password: m313n45
+                        password: $2y$13$Lz6ber1zm4UJh8APVraaBeJNO.abs.w6z3r9UbJUNe6//z1gjtBym
                         roles: 'ROLE_USER'
       user_db_provider:
           entity:
