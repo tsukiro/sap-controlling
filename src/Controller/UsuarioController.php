@@ -59,7 +59,7 @@ class UsuarioController extends Controller
     /**
      * @Route("/usuario/edit/{id}", name="usuarioEdit")
      */
-    public function edit(Usuario $usuario,Request $request){
+    public function edit(Usuario $usuario,Request $request,UserPasswordEncoderInterface $passwordEncoder){
       $form = $this->createForm(UsuarioType::class,$usuario);
 
        $form->handleRequest($request);
@@ -69,7 +69,8 @@ class UsuarioController extends Controller
           // but, the original `$task` variable has also been updated
           //$task = $form->getData();
 
-
+          $password = $passwordEncoder->encodePassword($usuario, $usuario->getPlainPassword());
+         $usuario->setPassword($password);
            $em = $this->getDoctrine()->getManager();
            $em->persist($usuario);
            $em->flush();

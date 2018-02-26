@@ -33,11 +33,19 @@
    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
  </form>
  {% if app.user %}
+    {% if app.user.nombre is defined %}
    <div class="pl-5 ">
+
         <img src="{{ asset(path('image',{'name': app.user.nombre,'_format':'png'} )) }}" width="30" height="30" style="border-radius: 100%" alt="{{ app.user.nombre }}">
    </div>
    <div class="pl-2 text-white">
      {{app.user.nombre}}
+   </div>
+   {% endif %}
+   <div class="pl-2">
+      <a href="{{ path('logout') }}">
+         <img src="{{ asset('icons/glyphicons_free/glyphicons/png/glyphicons-388-log-out.png') }}" alt="">
+        </a>
    </div>
   {% endif %}
   </div>

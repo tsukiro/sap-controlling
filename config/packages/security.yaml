@@ -2,12 +2,21 @@ security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     encoders:
         App\Entity\Usuario: bcrypt
+        Symfony\Component\Security\Core\User\User: plaintext
     providers:
-        in_memory: { memory: ~ }
-        user_db_provider:
-            entity:
-              class: App\Entity\Usuario
-              
+      chain_provider:
+            chain:
+                providers: [in_memory, user_db_provider]
+      in_memory:
+          memory:
+                users:
+                    admin:
+                        password: m313n45
+                        roles: 'ROLE_USER'
+      user_db_provider:
+          entity:
+            class: App\Entity\Usuario
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -17,7 +26,12 @@ security:
             form_login:
                 login_path: login
                 check_path: login
-            provider: user_db_provider
+            provider: chain_provider
+
+            logout:
+                path:   /logout
+                target: /
+
     access_control:
       - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
       - { path: ^/, roles: ROLE_USER }
