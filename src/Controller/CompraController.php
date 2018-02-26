@@ -12,12 +12,15 @@ use App\Entity\Solped;
 use App\Entity\OC;
 use App\Entity\Detalle;
 use App\Entity\Proveedor;
+use App\Entity\Attachment;
 use App\Entity\Distribucion;
 use App\Form\CompraType;
 use App\Form\SolpedType;
 use App\Form\OcType;
 use App\Form\DetalleType;
 use App\Form\DistribucionType;
+use App\Form\AttachmentType;
+use App\Service\FileUploader;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -73,15 +76,17 @@ class CompraController extends Controller
     /**
     * @Route("/compra/view/{id}", name="compraView")
     */
-    public function view(Compra $compra, Request $request){
+    public function view(Compra $compra, Request $request , FileUploader $fileUploader){
       $solped = new Solped;
       $oc = new OC;
       $distribucion = new Distribucion;
+      $attachment = new Attachment;
       $detalle = new Detalle;
       $detalle->setTipo($compra->getTipo());
       $detalle->setMedida("UND");
       $detalle->setTiempo("D");
       $detalle->setCantidad(1);
+      $attachmentform = $this->createForm(AttachmentType::class,$attachment);
       $detalleform = $this->createForm(DetalleType::class, $detalle);
       $distribucionform = $this->createForm(DistribucionType::class, $distribucion);
       $solpedform = $this->createForm(SolpedType::class, $solped);
@@ -89,9 +94,21 @@ class CompraController extends Controller
       $detalleform->handleRequest($request);
       $solpedform->handleRequest($request);
       $ocform->handleRequest($request);
+      $attachmentform->handleRequest($request);
       $distribucionform->handleRequest($request);
       $id = $compra->getId();
 
+      if ($attachmentform->isSubmitted() && $attachmentform->isValid()) {
+        $file = $attachment->getBrochure();
+        $fileName = $fileUploader->upload($file);
+        $attachment->setBrochure($fileName);
+        $compra->addAttachment($attachment);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($attachment);
+        $em->flush();
+        $this->addFlash("Exito",("Archivo agregado exitosamente"));
+        return $this->redirectToRoute('compraView',array('id'=>$compra->getId()));
+     }
       if ($distribucionform->isSubmitted() && $distribucionform->isValid()) {
         $compra->addDistribucion($distribucion);
         $em = $this->getDoctrine()->getManager();
@@ -135,7 +152,7 @@ class CompraController extends Controller
     }
 
       return $this->render('default/view.compra.html.twig', array(
-         'compra' => $compra, "forms" => array ("solped" => $solpedform->createView(),"oc" => $ocform->createView(),"detalle" => $detalleform->createView(), "distribucion" => $distribucionform->createView(),)
+         'compra' => $compra, "forms" => array ("solped" => $solpedform->createView(),"oc" => $ocform->createView(),"detalle" => $detalleform->createView(), "distribucion" => $distribucionform->createView(), "attachment" => $attachmentform->createView(),)
      ));
     }
     /**

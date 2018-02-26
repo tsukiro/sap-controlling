@@ -184,19 +184,49 @@
     </table>
     </div>
   </div>
+  <div class="row">
+    <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#attachmentModal">Agregar Archivo</button>
 
-  <div class="modal fade  " id="ocModal" tabindex="-1" role="dialog" aria-labelledby="ocModalLabel" aria-hidden="true">
+
+    {% if compra.attachments is defined %}
+            <table class="table">
+                <thead>
+                  <th>Archivo</th>
+                  <th>Fecha</th>
+                  <th>Acción</th>
+                </thead>
+                <tbody>
+                  {% for attachment in compra.attachments %}
+                    <tr>
+                      <td> <a href="{{ asset('files/'~ attachment.brochure ) }}">{{attachment.brochure}}</a>  </td>
+                      <td>{{ attachment.created|date("d-m-Y H:i") }}</td>
+                      <td>Borrar</td>
+                    </tr>
+
+                  {% endfor %}
+
+                </tbody>
+            </table>
+            <!-- Line component -->
+
+            <!-- Panel -->
+
+    {% endif %}
+
+  </div>
+
+  <div class="modal fade  " id="attachmentModal" tabindex="-1" role="dialog" aria-labelledby="ocModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="ocModalLabel">Agregar Solped</h5>
+        <h5 class="modal-title" id="attachmentModalLabel">Agregar Archivo</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        {% if forms.oc is defined %}
-          {{ form(forms.oc) }}
+        {% if forms.attachment is defined %}
+          {{ form(forms.attachment) }}
         {% endif %}
       </div>
       <div class="modal-footer">
