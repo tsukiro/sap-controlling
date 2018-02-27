@@ -18,6 +18,10 @@ class Attachment
      */
     private $id;
     /**
+    * @ORM\Column(type="string")
+    */
+    private $nombre;
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Compra", inversedBy="detalle")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -29,9 +33,8 @@ class Attachment
     private $pago;
     /**
      * @ORM\Column(type="string")
-     *
      * @Assert\NotBlank(message="Please, upload the product brochure as a PDF file.")
-     * @Assert\File(mimeTypes={ "application/pdf" })
+     * @Assert\File(mimeTypes={ "application/pdf","application/msword","application/excel","application/vnd.ms-excel","text/plain","application/vnd.openxmlformats-officedocument.wordprocessingml.document","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","application/vnd.openxmlformats-officedocument.presentationml.presentation" })
      */
     private $brochure;
 
@@ -144,6 +147,31 @@ class Attachment
     public function getCreated()
     {
         return $this->created;
+    }
+
+
+    /**
+     * Get the value of Nombre
+     *
+     * @return mixed
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * Set the value of Nombre
+     *
+     * @param mixed nombre
+     *
+     * @return self
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+
+        return $this;
     }
 
 }

@@ -39,6 +39,15 @@ class PagoRepository extends ServiceEntityRepository
 
         return $paginator;
     }
+    public function getPagoBusqueda($busqueda){
+      return $this->createQueryBuilder('p')
+          ->where("p.factura = :factura OR p.descripcion LIKE :busqueda")
+          ->setParameter('factura', $busqueda)
+          ->setParameter('busqueda', $busqueda)
+          ->getQuery()
+          ->getResult()
+        ;
+    }
     public function paginate($dql, $page = 1, $limit = 5)
     {
         $paginator = new Paginator($dql);

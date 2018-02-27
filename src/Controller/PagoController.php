@@ -12,9 +12,12 @@ use App\Entity\Solped;
 use App\Entity\OC;
 use App\Entity\Detalle;
 use App\Entity\Proveedor;
+use App\Entity\Attachment;
 use App\Entity\Distribucion;
 use App\Form\PagoType;
 use App\Form\SolpedType;
+use App\Form\AttachmentType;
+use App\Service\FileUploader;
 use App\Form\OcType;
 use App\Form\DetalleType;
 use App\Form\DistribucionType;
@@ -73,15 +76,17 @@ class PagoController extends Controller
   /**
   * @Route("/pago/view/{id}", name="pagoView")
   */
-  public function view(Pago $pago, Request $request){
+  public function view(Pago $pago, Request $request,FileUploader $fileUploader){
     $solped = new Solped;
     $oc = new OC;
     $distribucion = new Distribucion;
+    $attachment = new Attachment;
     $detalle = new Detalle;
     $detalle->setTipo($pago->getTipo());
     $detalle->setMedida("UND");
     $detalle->setTiempo("D");
     $detalle->setCantidad(1);
+    $attachmentform = $this->createForm(AttachmentType::class,$attachment);
     $distribucionform = $this->createForm(DistribucionType::class, $distribucion);
     $detalleform = $this->createForm(DetalleType::class, $detalle);
     $solpedform = $this->createForm(SolpedType::class, $solped);
@@ -90,8 +95,25 @@ class PagoController extends Controller
     $solpedform->handleRequest($request);
     $ocform->handleRequest($request);
     $distribucionform->handleRequest($request);
-    $id = $pago->getId();
+    $attachmentform->handleRequest($request);
 
+    if ($attachmentform->isSubmitted()) {
+
+      if ($attachmentform->isValid()){
+        $file = $attachment->getBrochure();
+        $fileName = $fileUploader->upload($file);
+        $attachment->setBrochure($fileName);
+        $pago->addAttachment($attachment);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($attachment);
+        $em->flush();
+        $this->addFlash("Exito",("Archivo agregado exitosamente"));
+        return $this->redirectToRoute('pagoView',array('id'=>$pago->getId()));
+      }else{
+        $this->addFlash("Error",("Hubo un error al intentar subir el archivo, verifica que el formato del archivo sea correcto."));
+        return $this->redirectToRoute('pagoView',array('id'=>$pago->getId()));
+      }
+   }
     if ($distribucionform->isSubmitted() && $distribucionform->isValid()) {
       $pago->addDistribucion($distribucion);
       $em = $this->getDoctrine()->getManager();
@@ -135,7 +157,7 @@ class PagoController extends Controller
   }
 
     return $this->render('default/view.pago.html.twig', array(
-       'pago' => $pago, "forms" => array ("solped" => $solpedform->createView(),"oc" => $ocform->createView(),"detalle" => $detalleform->createView(),"distribucion" => $distribucionform->createView(),)
+       'pago' => $pago, "forms" => array ("solped" => $solpedform->createView(),"oc" => $ocform->createView(),"detalle" => $detalleform->createView(),"distribucion" => $distribucionform->createView(), "attachment" => $attachmentform->createView(),)
    ));
   }
   /**

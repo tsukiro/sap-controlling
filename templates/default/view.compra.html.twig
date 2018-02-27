@@ -198,9 +198,12 @@
                 <tbody>
                   {% for attachment in compra.attachments %}
                     <tr>
-                      <td> <a href="{{ asset('files/'~ attachment.brochure ) }}">{{attachment.brochure}}</a>  </td>
+                      <td> <a href="{{ asset('files/'~ attachment.brochure ) }}" target="_blank">{{attachment.nombre}}</a>  </td>
                       <td>{{ attachment.created|date("d-m-Y H:i") }}</td>
-                      <td>Borrar</td>
+                      <td>
+                        <a href="{{ asset('files/'~ attachment.brochure ) }}" class="btn btn-success " target="_blank">Ver</a>
+                        <a href="{{ path('attachmentRemove',{"tipo":"Compra","n":compra.id,"id" : attachment.id}) }}" class="btn btn-danger ">Borrar</a>
+                      </td>
                     </tr>
 
                   {% endfor %}

@@ -22,7 +22,10 @@ class Pago
      * @ORM\Column(type="integer")
      */
     private $id;
-
+    /**
+    * @ORM\Column(type="string")
+    */
+    private $factura;
     /**
     * @return Collection|Solped[]
     *
@@ -104,8 +107,11 @@ class Pago
      * @ORM\JoinColumn(name="pago_id",nullable=true)
      */
     private $distribucion;
-
-
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Attachment", mappedBy="pago")
+     * @ORM\JoinColumn(name="pago_id",nullable=true)
+     */
+    private $attachments;
 
 
     /**
@@ -156,6 +162,7 @@ class Pago
         $this->solpeds = new ArrayCollection();
         $this->ocs = new ArrayCollection();
         $this->detalle = new ArrayCollection();
+        $this->attachments = new ArrayCollection();
     }
     public function addSolped(Solped $solped)
     {
@@ -174,7 +181,13 @@ class Pago
       $oc->addPago($this);
     }
 
-
+    public function addAttachment(Attachment $attachment){
+      if ($this->attachments->contains($attachment)){
+        return;
+      }
+      $this->attachments->add($attachment);
+      $attachment->setPago($this);
+    }
 
     /**
      * Get the value of Usuario
@@ -379,6 +392,54 @@ class Pago
 
             return $this;
         }
+        /**
+         * Get the value of Attachments
+         *
+         * @return mixed
+         */
+        public function getAttachments()
+        {
+            return $this->attachments;
+        }
 
+        /**
+         * Set the value of Attachments
+         *
+         * @param mixed attachments
+         *
+         * @return self
+         */
+        public function setAttachments($attachments)
+        {
+            $this->attachments = $attachments;
+
+            return $this;
+        }
+
+
+
+    /**
+     * Get the value of Factura
+     *
+     * @return mixed
+     */
+    public function getFactura()
+    {
+        return $this->factura;
+    }
+
+    /**
+     * Set the value of Factura
+     *
+     * @param mixed factura
+     *
+     * @return self
+     */
+    public function setFactura($factura)
+    {
+        $this->factura = $factura;
+
+        return $this;
+    }
 
 }

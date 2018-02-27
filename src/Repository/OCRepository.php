@@ -12,7 +12,15 @@ class OCRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, OC::class);
     }
-
+    public function getOCBusqueda($busqueda){
+      return $this->createQueryBuilder('c')
+          ->where("c.observacion LIKE :busqueda OR c.numero LIKE :numero")
+          ->setParameter('busqueda', "%".$busqueda."%")
+          ->setParameter('numero', "%".$busqueda."%")
+          ->getQuery()
+          ->getResult()
+        ;
+    }
     /*
     public function findBySomething($value)
     {

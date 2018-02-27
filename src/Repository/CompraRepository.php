@@ -39,6 +39,14 @@ class CompraRepository extends ServiceEntityRepository
 
         return $paginator;
     }
+    public function getCompraBusqueda($busqueda){
+      return $this->createQueryBuilder('c')
+          ->where("c.descripcion LIKE :busqueda")
+          ->setParameter('busqueda', "%".$busqueda."%")
+          ->getQuery()
+          ->getResult()
+        ;
+    }
     public function paginate($dql, $page = 1, $limit = 5)
     {
         $paginator = new Paginator($dql);

@@ -98,16 +98,21 @@ class CompraController extends Controller
       $distribucionform->handleRequest($request);
       $id = $compra->getId();
 
-      if ($attachmentform->isSubmitted() && $attachmentform->isValid()) {
-        $file = $attachment->getBrochure();
-        $fileName = $fileUploader->upload($file);
-        $attachment->setBrochure($fileName);
-        $compra->addAttachment($attachment);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($attachment);
-        $em->flush();
-        $this->addFlash("Exito",("Archivo agregado exitosamente"));
-        return $this->redirectToRoute('compraView',array('id'=>$compra->getId()));
+      if ($attachmentform->isSubmitted()) {
+        if ($attachmentform->isValid()){
+          $file = $attachment->getBrochure();
+          $fileName = $fileUploader->upload($file);
+          $attachment->setBrochure($fileName);
+          $compra->addAttachment($attachment);
+          $em = $this->getDoctrine()->getManager();
+          $em->persist($attachment);
+          $em->flush();
+          $this->addFlash("Exito",("Archivo agregado exitosamente"));
+          return $this->redirectToRoute('compraView',array('id'=>$compra->getId()));
+        }else{
+          $this->addFlash("Error",("Hubo un error al intentar subir el archivo, verifica que el formato del archivo sea correcto."));
+          return $this->redirectToRoute('compraView',array('id'=>$compra->getId()));
+        }
      }
       if ($distribucionform->isSubmitted() && $distribucionform->isValid()) {
         $compra->addDistribucion($distribucion);

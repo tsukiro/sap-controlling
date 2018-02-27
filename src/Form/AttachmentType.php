@@ -8,13 +8,15 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class AttachmentType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('brochure', FileType::class, array('label' => 'Adjunto (PDF file)'))
+        ->add('brochure', FileType::class, array('label' => 'Archivo (Sólo PDF)'))
+            ->add('nombre', TextType::class, array('attr' => array("placeholder" => "Nombre descriptivo para el archivo",)))
             ->add('save', SubmitType::class, array('label' => 'Agregar archivo'))
         ;
     }
