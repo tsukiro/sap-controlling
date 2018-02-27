@@ -1,43 +1,111 @@
 {% extends 'default/base.html.twig' %}
 
 {% block content %}
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h3>Compras:</h3>
+    {% if compras is defined %}
+      <ul class="list-group">
+        {% if compras|length > 0 %}
+        {% for compra in compras %}
+          <li class="list-group-item">
+            <a href="{{ path("compraView",{"id":compra.id}) }}">{{compra.id}}-{{compra.descripcion}}</a>
+          </li>
+        {% endfor %}
+        {% else %}
+        <ul class="list-group">
+          <li class="list-group-item">No se encontraron registros..</li>
+        </ul>
+        {% endif %}
 
-  {% if compras is defined %}
-    {% for compra in compras %}
-      <a href="{{ path("compraView",{"id":compra.id}) }}">{{compra.id}}-{{compra.descripcion}}</a> <br/>
-    {% endfor %}
-  {% endif %}
-  {% if pagos is defined %}
-    {% for pago in pagos %}
-      <a href="{{ path("pagoView",{"id":pago.id}) }}">{{pago.id}}-{{pago.descripcion}}</a> <br/>
-    {% endfor %}
-  {% endif %}
-  {% if solpeds is defined %}
-    {% for solped in solpeds %}
-      {% if solped.compras is defined %}
-        {% for compra in solped.compras %}
-            <a href="{{ path("compraView",{"id":compra.id}) }}">Solped : {{solped.numero}}  ID: {{compra.id}} ~   {{compra.descripcion}}</a> <br/>
-        {% endfor %}
+      </ul>
+
+
+    {% endif %}
+    </div>
+    <div class="col">
+      <h3>Pagos:</h3>
+      {% if pagos is defined %}
+      <ul class="list-group">
+        {% if pagos|length > 0 %}
+          {% for pago in pagos %}
+          <li class="list-group-item">
+            <a href="{{ path("pagoView",{"id":pago.id}) }}">{{pago.id}}-{{pago.descripcion}}</a>
+          </li>
+          {% endfor %}
+        {% else %}
+          <ul class="list-group">
+            <li class="list-group-item">No se encontraron registros..</li>
+          </ul>
+        {% endif %}
+
+        </ul>
       {% endif %}
-      {% if solped.pagos is defined %}
-        {% for pago in solped.pagos %}
-            <a href="{{ path("pagoView",{"id":pago.id}) }}">Solped : {{solped.numero}} ID: {{pago.id}} ~ {{pago.descripcion}}</a> <br/>
-        {% endfor %}
-      {% endif %}
-    {% endfor %}
-  {% endif %}
-  {% if ocs is defined %}
-    {% for oc in ocs %}
-      {% if oc.compras is defined %}
-        {% for compra in oc.compras %}
-            <a href="{{ path("compraView",{"id":compra.id}) }}">Solped : {{oc.numero}}  ID: {{compra.id}} ~ {{compra.descripcion}}</a> <br/>
-        {% endfor %}
-      {% endif %}
-      {% if oc.pagos is defined %}
-        {% for pago in oc.pagos %}
-            <a href="{{ path("pagoView",{"id":pago.id}) }}">Solped : {{oc.numero}} ID: {{pago.id}} ~ {{pago.descripcion}}</a> <br/>
-        {% endfor %}
-      {% endif %}
-    {% endfor %}
-  {% endif %}
+    </div>
+  </div>
+
+  <div class="row">
+      <div class="col">
+        <h3>Solped:</h3>
+        {% if solpeds is defined %}
+        <ul class="list-group">
+          {% if solpeds|length > 0 %}
+            {% for solped in solpeds %}
+              {% if solped.compras is defined %}
+                {% for compra in solped.compras %}
+                <li class="list-group-item">
+                  <a href="{{ path("compraView",{"id":compra.id}) }}">Solped : {{solped.numero}}  ID: {{compra.id}} ~   {{compra.descripcion}}</a>
+                </li>
+                {% endfor %}
+              {% endif %}
+              {% if solped.pagos is defined %}
+                {% for pago in solped.pagos %}
+                <li class="list-group-item">
+                    <a href="{{ path("pagoView",{"id":pago.id}) }}">Solped : {{solped.numero}} ID: {{pago.id}} ~ {{pago.descripcion}}</a>
+                </li>
+                {% endfor %}
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            <ul class="list-group">
+              <li class="list-group-item">No se encontraron registros..</li>
+            </ul>
+          {% endif %}
+        </ul>
+        {% endif %}
+      </div>
+      <div class="col">
+        <h3>OC:</h3>
+        {% if ocs is defined %}
+        <ul class="list-group">
+        {% if ocs|length > 0 %}
+          {% for oc in ocs %}
+            {% if oc.compras is defined %}
+              {% for compra in oc.compras %}
+              <li class="list-group-item">
+                  <a href="{{ path("compraView",{"id":compra.id}) }}">Solped : {{oc.numero}}  ID: {{compra.id}} ~ {{compra.descripcion}}</a>
+              </li>
+              {% endfor %}
+            {% endif %}
+            {% if oc.pagos is defined %}
+              {% for pago in oc.pagos %}
+              <li class="list-group-item">
+                  <a href="{{ path("pagoView",{"id":pago.id}) }}">Solped : {{oc.numero}} ID: {{pago.id}} ~ {{pago.descripcion}}</a>
+              </li>
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <ul class="list-group">
+            <li class="list-group-item">No se encontraron registros..</li>
+          </ul>
+        {% endif %}
+          </ul>
+        {% endif %}
+      </div>
+  </div>
+</div>
+
 {% endblock content %}
