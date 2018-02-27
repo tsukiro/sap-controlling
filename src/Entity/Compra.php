@@ -81,6 +81,8 @@ class Compra
         $this->detalle = new ArrayCollection();
         $this->solpeds = new ArrayCollection();
         $this->ocs = new ArrayCollection();
+        $this->attachments = new ArrayCollection();
+        $this->distribucion = new ArrayCollection();
     }
     public function getSolpeds(){
       return $this->solpeds;
@@ -129,6 +131,13 @@ class Compra
       }
       $this->ocs->add($oc);
       $oc->addCompra($this);
+    }
+    public function addAttachment(Attachment $attachment){
+      if ($this->attachments->contains($attachment)){
+        return;
+      }
+      $this->attachments->add($attachment);
+      $attachment->setCompra($this);
     }
 
     /**
@@ -306,6 +315,11 @@ class Compra
      */
     private $detalle;
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Attachment", mappedBy="compra")
+     * @ORM\JoinColumn(name="compra_id",nullable=true)
+     */
+    private $attachments;
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Distribucion", mappedBy="compra")
      * @ORM\JoinColumn(name="compra_id",nullable=true)
      */
@@ -380,6 +394,32 @@ class Compra
       }
       $this->distribucion->add($distribucion);
       $distribucion->setCompra($this);
+
+        return $this;
+    }
+
+
+
+    /**
+     * Get the value of Attachments
+     *
+     * @return mixed
+     */
+    public function getAttachments()
+    {
+        return $this->attachments;
+    }
+
+    /**
+     * Set the value of Attachments
+     *
+     * @param mixed attachments
+     *
+     * @return self
+     */
+    public function setAttachments($attachments)
+    {
+        $this->attachments = $attachments;
 
         return $this;
     }

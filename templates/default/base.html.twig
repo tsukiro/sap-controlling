@@ -50,6 +50,15 @@
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip()
                 })
+
+
+                $("#searchForm").submit(function(evt){
+                    var search = $("#search").val();
+                    url = "{{ path("search") }}/"+search;
+                    $( location ).attr("href", url);
+                  evt.preventDefault();
+                })
+
             </script>
         {% endblock %}
 

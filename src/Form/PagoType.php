@@ -26,6 +26,7 @@ class PagoType extends AbstractType
             'class' => Usuario::class,
             'choice_label' => 'nombre',
         ))
+        ->add('factura',TextType::class)
         ->add('proveedor', EntityType::class,array(
             'class' => Proveedor::class,
             'choice_label' => 'nombre',

@@ -12,7 +12,14 @@ class SolpedRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Solped::class);
     }
-
+    public function getSolpedBusqueda($busqueda){
+      return $this->createQueryBuilder('c')
+          ->where("c.numero LIKE :numero")
+          ->setParameter('numero', "%".$busqueda."%")
+          ->getQuery()
+          ->getResult()
+        ;
+    }
     /*
     public function findBySomething($value)
     {
