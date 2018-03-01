@@ -20,7 +20,7 @@ class AvatarImageController extends Controller
 
       $avatar = new InitialAvatar();
       // create an image manager instance with favored driver
-      //Image::configure(array('driver' => 'imagick'));
+      Image::configure(array('driver' => 'imagick'));
       $image = $avatar->name($name)
           ->length(2)
           ->fontSize(0.5)
