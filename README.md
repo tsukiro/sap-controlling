@@ -2,28 +2,16 @@
 
 This README would normally document whatever steps are necessary to get your application up and running.
 
-### What is this repository for? ###
+### Para qué es este repositorio? ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* SAP Controlling, es una plataforma para almacenar los movimientos (Ordenes de Compra y Solicitudes de pedido) que se realicen en SAP para tener un mejor control en cuanto a los datos ingresados, ademas permite almacenar las evidencias y archivos según se requiera para cada caso.
+* 1.0
 
-### How do I get set up? ###
+### Instalación ###
 
-* Summary of set up
-* Configuration
+* Descarga o clona este repositorio
+* ejecuta a través de la consola el comando 'composer install' para instalar todos los componentes requeridos por symfony y el proyecto
 * Dependencies
-* Database configuration
-* How to run tests
+* Modifica la url de tu base de datos en el archivo '.env' en la raíz de tu proyecto
 * Deployment instructions
 
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
