@@ -1,17 +1,18 @@
-# README #
+# SAP Controlling
 
-This README would normally document whatever steps are necessary to get your application up and running.
+**Raion Soft[![RaionSoft](https://raion.cl/img/logo.png)](https://raion.cl)**
 
-### Para qué es este repositorio? ###
 
-* SAP Controlling, es una plataforma para almacenar los movimientos (Ordenes de Compra y Solicitudes de pedido) que se realicen en SAP para tener un mejor control en cuanto a los datos ingresados, ademas permite almacenar las evidencias y archivos según se requiera para cada caso.
-* 1.0
+Sap Controlling es una pequeña plataforma para administrar, fuera de SAP, las ordenes de compra, solicitudes de pedido y evidencias que se necesitan.
 
-### Instalación ###
+# Features
 
-* Descarga o clona este repositorio
-* ejecuta a través de la consola el comando 'composer install' para instalar todos los componentes requeridos por symfony y el proyecto
-* Dependencies
-* Modifica la url de tu base de datos en el archivo '.env' en la raíz de tu proyecto
-* Deployment instructions
+  - Agrega y administra usuarios para ingresar al sistema
+  - Agrega y administra los proveedores, también puedes asociarlo a un contrato marco
+  - Genera "Pagos o Compras" para asociarlos a OC Y Solpeds según se necesite
+
+Compras:
+Considerados para la gestión de compras el modulo "Compra" permite agregar Solped y OC antes de la generación de una factura.
+Pagos:
+Considerados para la gestión de compras el modulo "Compra" permite agregar Solped y OC después de la generación de una factura por parte de un proveedor.
 
