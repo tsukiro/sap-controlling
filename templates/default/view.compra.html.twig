@@ -6,6 +6,7 @@
   <h1>Vista de Compra : {{ compra.descripcion }}</h1>
 </div>
 <div class="row">
+  <div class="table-responsive">
   <table class="table">
     <thead>
         <tr>
@@ -42,10 +43,12 @@
         </tr>
   </table>
 </div>
+</div>
 
   <div class="row">
     <div class="col">
       <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#detalleModal">Agregar Detalle</button>
+      <div class="table-responsive">
       <table class="table">
         <thead>
           <th>Descripcion</th>
@@ -76,8 +79,10 @@
         </tbody>
       </table>
     </div>
+    </div>
     <div class="col">
       <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#distribucionModal">Agregar Distribución</button>
+      <div class="table-responsive">
       <table class="table">
         <thead>
           <th>Cantidad</th>
@@ -108,11 +113,12 @@
         </tbody>
       </table>
     </div>
+    </div>
   </div>
   <div class="row">
     <div class="col">
       <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#solpedModal">Agregar Solped</button>
-
+      <div class="table-responsive">
       <table class="table">
           <tr>
               <th>Numero</th>
@@ -147,9 +153,10 @@
       {% endif %}
           </table>
     </div>
+    </div>
     <div class="col">
       <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#ocModal">Agregar OC</button>
-
+<div class="table-responsive">
       <table class="table">
           <tr>
               <th>Numero</th>
@@ -183,12 +190,14 @@
       {% endif %}
     </table>
     </div>
+    </div>
   </div>
   <div class="row">
     <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#attachmentModal">Agregar Archivo</button>
 
 
     {% if compra.attachments is defined %}
+    <div class="table-responsive">
             <table class="table">
                 <thead>
                   <th>Archivo</th>
@@ -210,6 +219,7 @@
 
                 </tbody>
             </table>
+          </div>
             <!-- Line component -->
 
             <!-- Panel -->
