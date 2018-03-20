@@ -3,10 +3,12 @@
     "license": "proprietary",
     "require": {
         "php": "^7.0.8",
+        "ext-gd" : "*",
         "ext-iconv": "*",
         "intervention/image": "^2.4",
         "lasserafn/php-initial-avatar-generator": "^2.3",
         "sensio/framework-extra-bundle": "^5.1",
+        "symfony/apache-pack": "^1.0",
         "symfony/asset": "^3.4",
         "symfony/console": "^3.4",
         "symfony/dotenv": "^3.4",

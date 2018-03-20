@@ -30,9 +30,9 @@ class AvatarImageController extends Controller
           ->generate()
           ->stream('png', 100);
       // to finally create image instances
-      $image = Image::make($image);
+      //$image = Image::make($image);
       //$response = Image::make($image->encode('png'));
-      $response = new response($image->response());
+      $response = new response($image);
       $response->headers->set('Content-Type', 'image/png');
       // set content-type
       //$response->header('Content-Type', 'image/png');
